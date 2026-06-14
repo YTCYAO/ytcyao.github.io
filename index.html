@@ -1,2070 +1,1404 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YYT Community - Home</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    /* Header */
-    header {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      padding: 1rem 2rem;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .logo h1 {
-      font-size: 1.3rem;
-      font-weight: 600;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .nav-links a {
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: #fff;
-    }
-
-    /* Auth buttons */
-    .auth-buttons {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .auth-btn {
-      padding: 0.5rem 1.2rem;
-      border: none;
-      border-radius: 25px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 0.9rem;
-    }
-
-    .login-btn {
-      background: transparent;
-      color: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .login-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-    }
-
-    .register-btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: #fff;
-    }
-
-    .register-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    }
-
-    .logout-btn {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .logout-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .post-btn {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: #fff;
-    }
-
-    .post-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      color: #fff;
-      font-weight: 500;
-    }
-
-    /* Auth Modal */
-    .auth-modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-
-    .auth-modal-overlay.show {
-      display: flex;
-    }
-
-    .auth-modal {
-      background: #fff;
-      border-radius: 20px;
-      width: 100%;
-      max-width: 400px;
-      overflow: hidden;
-      animation: modalFadeIn 0.3s ease-out;
-    }
-
-    .auth-modal-header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 1.5rem;
-      color: #fff;
-      text-align: center;
-    }
-
-    .auth-modal-header h2 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
-
-    .auth-modal-body {
-      padding: 1.5rem;
-    }
-
-    .auth-form-group {
-      margin-bottom: 1rem;
-    }
-
-    .auth-form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-      color: #333;
-    }
-
-    .auth-form-group input {
-      width: 100%;
-      padding: 0.8rem;
-      border: 1px solid #e0e0e0;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: border-color 0.2s;
-    }
-
-    .auth-form-group input:focus {
-      outline: none;
-      border-color: #667eea;
-    }
-
-    .auth-modal-footer {
-      padding: 0 1.5rem 1.5rem;
-    }
-
-    .auth-submit-btn {
-      width: 100%;
-      padding: 0.8rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .auth-submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    }
-
-    .auth-switch {
-      text-align: center;
-      margin-top: 1rem;
-      font-size: 0.9rem;
-      color: #666;
-    }
-
-    .auth-switch button {
-      background: none;
-      border: none;
-      color: #667eea;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    .auth-switch button:hover {
-      color: #764ba2;
-    }
-
-    /* Post Modal */
-    .post-modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-
-    .post-modal-overlay.show {
-      display: flex;
-    }
-
-    .post-modal {
-      background: #fff;
-      border-radius: 20px;
-      width: 100%;
-      max-width: 500px;
-      overflow: hidden;
-      animation: modalFadeIn 0.3s ease-out;
-    }
-
-    .post-modal-header {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      padding: 1.5rem;
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .post-modal-header h2 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
-
-    .post-modal-close {
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      color: #fff;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.2rem;
-    }
-
-    .post-modal-body {
-      padding: 1.5rem;
-    }
-
-    .post-form-group {
-      margin-bottom: 1rem;
-    }
-
-    .post-form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-      color: #333;
-    }
-
-    .post-form-group input,
-    .post-form-group textarea,
-    .post-form-group select {
-      width: 100%;
-      padding: 0.8rem;
-      border: 1px solid #e0e0e0;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: border-color 0.2s;
-    }
-
-    .post-form-group input:focus,
-    .post-form-group textarea:focus,
-    .post-form-group select:focus {
-      outline: none;
-      border-color: #10b981;
-    }
-
-    .post-form-group textarea {
-      height: 120px;
-      resize: vertical;
-    }
-
-    .post-modal-footer {
-      padding: 0 1.5rem 1.5rem;
-    }
-
-    .post-submit-btn {
-      width: 100%;
-      padding: 0.8rem;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .post-submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-    }
-
-    /* Toast notification */
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: rgba(0, 0, 0, 0.85);
-      color: #fff;
-      padding: 1rem 2rem;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      z-index: 3000;
-      opacity: 0;
-      transition: all 0.3s ease;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .toast.error {
-      background: rgba(239, 68, 68, 0.9);
-    }
-
-    .toast.success {
-      background: rgba(34, 197, 94, 0.9);
-    }
-
-    /* Search bar */
-    .search-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem 2rem;
-    }
-
-    .search-box {
-      display: flex;
-      gap: 0.5rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .search-input {
-      flex: 1;
-      padding: 0.8rem 1.2rem;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .search-input:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-
-    .search-btn {
-      padding: 0.8rem 1.5rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .search-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    }
-
-    .search-results {
-      text-align: center;
-      color: #666;
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
-    }
-
-    /* Main content */
-    .main-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem 2rem;
-    }
-
-    /* Hero section */
-    .hero-section {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 20px;
-      padding: 3rem;
-      margin-bottom: 2rem;
-      color: #fff;
-      text-align: center;
-      box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
-    }
-
-    .hero-title {
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
-      margin-bottom: 1rem;
-    }
-
-    .hero-subtitle {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 3rem;
-      flex-wrap: wrap;
-    }
-
-    .stat-item {
-      text-align: center;
-    }
-
-    .stat-number {
-      font-size: 2rem;
-      font-weight: bold;
-    }
-
-    .stat-label {
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-
-    /* Category tags */
-    .category-tags {
-      display: flex;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-
-    .tag {
-      padding: 0.5rem 1.2rem;
-      background: #fff;
-      border-radius: 25px;
-      border: 1px solid #e0e0e0;
-      color: #666;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .tag:hover {
-      background: #667eea;
-      color: #fff;
-      border-color: #667eea;
-    }
-
-    .tag.active {
-      background: #667eea;
-      color: #fff;
-      border-color: #667eea;
-    }
-
-    /* Posts section */
-    .posts-section {
-      margin-bottom: 2rem;
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-      color: #1a1a2e;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    /* Posts grid */
-    .posts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
-    /* Post card */
-    .post-card {
-      background: #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-    }
-
-    .post-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-    }
-
-    .post-image {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    
-    .post-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .post-content {
-      padding: 1.2rem;
-    }
-
-    .post-category {
-      display: inline-block;
-      padding: 0.3rem 0.8rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #667eea;
-      background: rgba(102, 126, 234, 0.1);
-      border-radius: 20px;
-      margin-bottom: 0.8rem;
-    }
-
-    .post-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #1a1a2e;
-      margin-bottom: 0.5rem;
-      line-height: 1.4;
-    }
-
-    .post-excerpt {
-      font-size: 0.9rem;
-      color: #666;
-      line-height: 1.5;
-      margin-bottom: 1rem;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .post-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.85rem;
-      color: #999;
-    }
-
-    .post-author {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .author-avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: bold;
-    }
-
-    /* Post Detail Modal */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 1000;
-      overflow-y: auto;
-    }
-
-    .modal-overlay.show {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 2rem;
-    }
-
-    .modal-content {
-      background: #fff;
-      border-radius: 20px;
-      max-width: 800px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      animation: modalFadeIn 0.3s ease-out;
-    }
-
-    @keyframes modalFadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .modal-header {
-      position: relative;
-    }
-
-    .modal-image {
-      width: 100%;
-      height: 250px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    
-    .modal-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.5);
-      color: #fff;
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .modal-close:hover {
-      background: rgba(0, 0, 0, 0.7);
-    }
-
-    .modal-body {
-      padding: 2rem;
-    }
-
-    .modal-category {
-      display: inline-block;
-      padding: 0.3rem 0.8rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #667eea;
-      background: rgba(102, 126, 234, 0.1);
-      border-radius: 20px;
-      margin-bottom: 1rem;
-    }
-
-    .modal-title {
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: #1a1a2e;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
-
-    .modal-author {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      margin-bottom: 2rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid #eee;
-    }
-
-    .modal-author-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 0.9rem;
-      font-weight: bold;
-    }
-
-    .modal-author-info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .modal-author-name {
-      font-weight: 600;
-      color: #1a1a2e;
-    }
-
-    .modal-date {
-      font-size: 0.85rem;
-      color: #999;
-    }
-
-    .modal-text {
-      font-size: 1rem;
-      line-height: 1.8;
-      color: #333;
-    }
-
-    .modal-text h3 {
-      color: #1a1a2e;
-      margin: 1.5rem 0 1rem;
-      font-size: 1.3rem;
-    }
-
-    .modal-text h4 {
-      color: #333;
-      margin: 1rem 0 0.5rem;
-      font-size: 1.1rem;
-    }
-
-    .modal-text ul, .modal-text ol {
-      margin: 1rem 0;
-      padding-left: 1.5rem;
-    }
-
-    .modal-text li {
-      margin-bottom: 0.5rem;
-    }
-
-    .modal-text code {
-      background: #f0f0f0;
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-      font-family: monospace;
-    }
-
-    .modal-text blockquote {
-      border-left: 4px solid #667eea;
-      padding-left: 1rem;
-      margin: 1rem 0;
-      color: #666;
-      font-style: italic;
-    }
-
-    /* Footer */
-    footer {
-      background: #1a1a2e;
-      color: rgba(255, 255, 255, 0.7);
-      padding: 2rem;
-      text-align: center;
-      margin-top: 3rem;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    .footer-links a {
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-
-    .footer-links a:hover {
-      color: #fff;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      header { padding: 1rem; }
-      .nav-links { gap: 1rem; }
-      .main-content { padding: 1rem; }
-      .hero-section { padding: 2rem 1rem; }
-      .hero-stats { gap: 2rem; }
-      .modal-overlay.show { padding: 1rem; }
-      .modal-body { padding: 1.5rem; }
-      .modal-title { font-size: 1.4rem; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YTC飞行论坛</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* 欢迎页面 */
+        .welcome-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .welcome-container {
+            text-align: center;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #e94560, #c73e54);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 48px;
+            box-shadow: 0 20px 60px rgba(233, 69, 96, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 20px 60px rgba(233, 69, 96, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 30px 80px rgba(233, 69, 96, 0.6); }
+        }
+
+        .title {
+            font-size: 42px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 15px;
+            letter-spacing: 8px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 50px;
+            letter-spacing: 3px;
+        }
+
+        .enter-btn {
+            padding: 18px 60px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(135deg, #e94560, #c73e54);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+        }
+
+        .enter-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(233, 69, 96, 0.6);
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 80px;
+            opacity: 0.6;
+        }
+
+        .feature-item {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .feature-item span {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .feature-item p {
+            font-size: 14px;
+        }
+
+        /* 论坛页面 */
+        .forum-page {
+            display: none;
+            min-height: 100vh;
+        }
+
+        /* 顶部导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .add-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e94560, #c73e54);
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4);
+        }
+
+        .add-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(233, 69, 96, 0.6);
+        }
+
+        .chat-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chat-btn:hover {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: rgba(233, 69, 96, 0.5);
+        }
+
+        .navbar-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #e94560;
+            letter-spacing: 2px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 8px 20px;
+            gap: 10px;
+            width: 280px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .search-bar .icon {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* 主容器 */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px 40px;
+        }
+
+        /* 板块网格 */
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .section-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(233, 69, 96, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .section-desc {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 15px;
+        }
+
+        .section-count {
+            font-size: 12px;
+            color: #e94560;
+            background: rgba(233, 69, 96, 0.15);
+            padding: 5px 12px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        /* 帖子列表 */
+        .posts-container {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .posts-container.active {
+            display: block;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: #e94560;
+        }
+
+        .posts-title {
+            font-size: 24px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(233, 69, 96, 0.3);
+        }
+
+        .posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .post-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(233, 69, 96, 0.3);
+        }
+
+        .post-title {
+            font-size: 17px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .post-meta {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            display: flex;
+            gap: 15px;
+        }
+
+        /* 弹窗基础样式 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #1a1a2e;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(233, 69, 96, 0.3);
+            color: #e94560;
+        }
+
+        /* 帖子详情弹窗 */
+        .detail-modal {
+            width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .modal-meta {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-content {
+            font-size: 15px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            white-space: pre-wrap;
+            margin-bottom: 30px;
+        }
+
+        /* 评论区域 */
+        .comments-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comments-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .comment-count {
+            font-size: 14px;
+            font-weight: normal;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .comment-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .comment-time {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .comment-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+
+        .comment-input-section {
+            display: flex;
+            gap: 15px;
+        }
+
+        .comment-input-section textarea {
+            flex: 1;
+            min-height: 80px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .comment-input-section textarea:focus {
+            outline: none;
+            border-color: #e94560;
+        }
+
+        .comment-input-section textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .comment-submit {
+            align-self: flex-end;
+            padding: 12px 25px;
+        }
+
+        .empty-comments {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+        }
+
+        /* 发帖弹窗 */
+        .post-modal {
+            width: 550px;
+            padding: 30px;
+        }
+
+        .post-modal .form-group {
+            margin-bottom: 20px;
+        }
+
+        .post-modal label {
+            display: block;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+        }
+
+        .post-modal select,
+        .post-modal input,
+        .post-modal textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            font-family: inherit;
+        }
+
+        .post-modal select:focus,
+        .post-modal input:focus,
+        .post-modal textarea:focus {
+            outline: none;
+            border-color: #e94560;
+        }
+
+        .post-modal textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .post-modal select option {
+            background: #1a1a2e;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e94560, #c73e54);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(233, 69, 96, 0.3);
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .empty-state .icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        /* 搜索结果 */
+        .search-results {
+            margin-top: 30px;
+        }
+
+        .search-title {
+            font-size: 24px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(233, 69, 96, 0.3);
+        }
+
+        /* 聊天功能 */
+        .chat-modal {
+            width: 800px;
+            max-height: 85vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .online-users {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chat-message {
+            display: flex;
+            gap: 12px;
+            max-width: 80%;
+        }
+
+        .chat-message.own {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .chat-message.own .chat-avatar {
+            background: linear-gradient(135deg, #e94560, #c73e54);
+        }
+
+        .chat-bubble {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 12px 16px;
+            max-width: calc(100% - 52px);
+        }
+
+        .chat-message.own .chat-bubble {
+            background: linear-gradient(135deg, #e94560, #c73e54);
+        }
+
+        .chat-author {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 5px;
+        }
+
+        .chat-message.own .chat-author {
+            text-align: right;
+        }
+
+        .chat-text {
+            font-size: 14px;
+            color: #fff;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .chat-input-section {
+            padding: 20px 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 15px;
+        }
+
+        .chat-input-section input {
+            flex: 1;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .chat-input-section input:focus {
+            border-color: #e94560;
+        }
+
+        .chat-input-section input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .chat-send-btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            background: linear-gradient(135deg, #e94560, #c73e54);
+            color: #fff;
+        }
+
+        .chat-send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(233, 69, 96, 0.3);
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="header-content">
-      <a href="home.html" class="logo">
-        <h1>YYT Flight</h1>
-      </a>
-      <nav class="nav-links">
-        <a href="#">首页</a>
-        <a href="#">帖子</a>
-        <a href="#">教程</a>
-        <a href="#">社区</a>
-        <a href="flight_sim.html">模拟器</a>
-      </nav>
-      <div class="auth-buttons">
-        <button id="loginBtn" class="auth-btn login-btn">登录</button>
-        <button id="registerBtn" class="auth-btn register-btn">注册</button>
-        <div id="userInfo" class="user-info" style="display: none;">
-          <span id="userName"></span>
-          <button id="logoutBtn" class="auth-btn logout-btn">退出</button>
-        </div>
-        <button id="postBtn" class="auth-btn post-btn" style="display: none;">发布帖子</button>
-      </div>
-    </div>
-  </header>
-
-  <div class="search-container">
-    <div class="search-box">
-      <input type="text" class="search-input" id="searchInput" placeholder="搜索帖子关键词...">
-      <button class="search-btn" id="searchBtn">搜索</button>
-    </div>
-    <div class="search-results" id="searchResults"></div>
-  </div>
-
-  <main class="main-content">
-    <section class="hero-section">
-      <h2 class="hero-title">欢迎来到模拟飞行社区</h2>
-      <p class="hero-subtitle">与全球飞行爱好者分享你的飞行经验和技巧</p>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-number">12,580</div>
-          <div class="stat-label">活跃用户</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">8,920</div>
-          <div class="stat-label">精彩帖子</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">500+</div>
-          <div class="stat-label">飞行教程</div>
-        </div>
-      </div>
-    </section>
-
-    <div class="category-tags">
-      <span class="tag active">全部</span>
-      <span class="tag">飞行技巧</span>
-      <span class="tag">机型评测</span>
-      <span class="tag">航线分享</span>
-      <span class="tag">插件推荐</span>
-      <span class="tag">新手入门</span>
-      <span class="tag">精彩截图</span>
-    </div>
-
-    <section class="posts-section">
-      <h3 class="section-title">📝 最新帖子</h3>
-      <div class="posts-grid" id="postsGrid">
-      </div>
-    </section>
-  </main>
-
-  <!-- Post Detail Modal -->
-  <div class="modal-overlay" id="postModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-image" id="modalImage">✈️</div>
-        <button class="modal-close" id="modalClose">×</button>
-      </div>
-      <div class="modal-body">
-        <span class="modal-category" id="modalCategory">类别</span>
-        <h2 class="modal-title" id="modalTitle">标题</h2>
-        <div class="modal-author">
-          <div class="modal-author-avatar" id="modalAuthorAvatar">A</div>
-          <div class="modal-author-info">
-            <span class="modal-author-name" id="modalAuthor">作者</span>
-            <span class="modal-date" id="modalDate">日期</span>
-          </div>
-        </div>
-        <div class="modal-text" id="modalContent"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Auth Modal -->
-  <div class="auth-modal-overlay" id="authModal">
-    <div class="auth-modal">
-      <div class="auth-modal-header">
-        <h2 id="authModalTitle">登录</h2>
-      </div>
-      <div class="auth-modal-body">
-        <form id="authForm">
-          <div class="auth-form-group">
-            <label for="authUsername">用户名</label>
-            <input type="text" id="authUsername" placeholder="请输入用户名" required>
-          </div>
-          <div class="auth-form-group" id="phoneGroup" style="display: none;">
-            <label for="authPhone">手机号</label>
-            <input type="tel" id="authPhone" placeholder="请输入手机号" required>
-          </div>
-          <div class="auth-form-group">
-            <label for="authPassword">密码</label>
-            <input type="password" id="authPassword" placeholder="请输入密码" required>
-          </div>
-        </form>
-      </div>
-      <div class="auth-modal-footer">
-        <button class="auth-submit-btn" id="authSubmitBtn">登录</button>
-        <div class="auth-switch" id="authSwitch">
-          还没有账号？<button id="toggleAuthMode">立即注册</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Post Modal -->
-  <div class="post-modal-overlay" id="newPostModal">
-    <div class="post-modal">
-      <div class="post-modal-header">
-        <h2>发布新帖子</h2>
-        <button class="post-modal-close" id="newPostClose">×</button>
-      </div>
-      <div class="post-modal-body">
-        <form id="newPostForm">
-          <div class="post-form-group">
-            <label for="postTitle">标题</label>
-            <input type="text" id="postTitle" placeholder="请输入帖子标题" required>
-          </div>
-          <div class="post-form-group">
-            <label for="postCategory">分类</label>
-            <select id="postCategory" required>
-              <option value="">请选择分类</option>
-              <option value="飞行技巧">飞行技巧</option>
-              <option value="插件推荐">插件推荐</option>
-              <option value="航线分享">航线分享</option>
-              <option value="机型评测">机型评测</option>
-              <option value="新手入门">新手入门</option>
-              <option value="精彩截图">精彩截图</option>
-            </select>
-          </div>
-          <div class="post-form-group">
-            <label for="postExcerpt">摘要</label>
-            <input type="text" id="postExcerpt" placeholder="请输入帖子摘要" required>
-          </div>
-          <div class="post-form-group">
-            <label for="postContent">内容</label>
-            <textarea id="postContent" placeholder="请输入帖子内容" required></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="post-modal-footer">
-        <button class="post-submit-btn" id="newPostSubmit">发布帖子</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast Notification -->
-  <div class="toast" id="toast"></div>
-
-  <footer>
-    <div class="footer-links">
-      <a href="#">关于我们</a>
-      <a href="#">隐私政策</a>
-      <a href="#">服务条款</a>
-      <a href="#">联系我们</a>
-    </div>
-    <p>&copy; 2024 YYT Community. All rights reserved.</p>
-  </footer>
-
-  <script>
-    const posts = [
-      {
-        id: 1,
-        title: '波音747-8飞行教程：从起飞到降落全流程',
-        excerpt: '详细讲解波音747-8的起飞、巡航、下降和降落操作步骤，适合新手学习大型机操作。',
-        category: '飞行技巧',
-        author: '机长老王',
-        authorInitial: '王',
-        image: 'https://neeko-copilot.bytedance.net/api/text2image?prompt=X-Plane%2011%20flight%20simulator%20logo%20blue%20text%20on%20black%20background%20with%20stars%20professional%20design&size=800x600',
-        date: '2小时前',
-        keywords: ['波音747', '起飞', '降落', '大型机', '巡航', '襟翼', '起落架'],
-        content: `
-          <p>波音747-8是波音公司生产的大型宽体客机，是747家族的最新成员。本教程将详细讲解从起飞到降落的完整流程。</p>
-          
-          <h3>一、起飞阶段</h3>
-          <p>起飞前准备：</p>
-          <ul>
-            <li>检查襟翼设置为10-15度</li>
-            <li>确认自动油门已激活</li>
-            <li>设置V1、VR、V2速度</li>
-            <li>检查配平设置</li>
-          </ul>
-          <p>起飞操作：</p>
-          <ol>
-            <li>将推力杆推至TO/GA位置</li>
-            <li>监控速度表，达到VR时拉杆</li>
-            <li>爬升至1000英尺收起落架</li>
-            <li>爬升至3000英尺收襟翼</li>
-          </ol>
-
-          <h3>二、巡航阶段</h3>
-          <p>巡航高度通常在FL350-FL400之间。</p>
-          <ul>
-            <li>设置自动驾驶高度保持</li>
-            <li>调整巡航速度至Mach 0.85</li>
-            <li>监控燃油消耗</li>
-            <li>定期检查系统状态</li>
-          </ul>
-
-          <h3>三、下降阶段</h3>
-          <p>下降前10-15分钟开始准备：</p>
-          <ul>
-            <li>联系ATC获取下降许可</li>
-            <li>设置下降速度和高度</li>
-            <li>准备进近图表</li>
-          </ul>
-
-          <h3>四、降落阶段</h3>
-          <p>进近时注意事项：</p>
-          <ul>
-            <li>保持稳定的下滑道</li>
-            <li>控制下降率在1000-1500 fpm</li>
-            <li>最后进近时放下起落架和襟翼</li>
-            <li>保持适当的着陆速度</li>
-          </ul>
-
-          <blockquote>小贴士：大型机着陆时要注意提前减速，保持平稳的下沉率。</blockquote>
-        `
-      },
-      {
-        id: 2,
-        title: '微软飞行模拟2024最佳插件推荐',
-        excerpt: '盘点MSFS 2024最值得安装的10个插件，提升你的飞行体验。',
-        category: '插件推荐',
-        author: '飞行达人',
-        authorInitial: '飞',
-        image: 'https://neeko-copilot.bytedance.net/api/text2image?prompt=X-Plane%2012%20flight%20simulator%20logo%20blue%20text%20on%20dark%20background%20modern%20design%20professional&size=800x600',
-        date: '5小时前',
-        keywords: ['微软飞行模拟', 'MSFS', '插件', 'FSLabs', 'PMDG', 'A320', '737'],
-        content: `
-          <p>微软飞行模拟2024提供了丰富的插件生态，以下是我个人推荐的必装插件：</p>
-
-          <h3>1. FSLabs A320</h3>
-          <p>业界公认的最佳空客A320模拟，系统深度和细节无与伦比。</p>
-
-          <h3>2. PMDG 737 NG3</h3>
-          <p>波音737的标杆级模拟，完美的系统模拟和飞行动力学。</p>
-
-          <h3>3. Orbx Global Base</h3>
-          <p>全球地景增强插件，大幅提升视觉效果。</p>
-
-          <h3>4. Active Sky Next</h3>
-          <p>实时天气插件，提供最真实的气象体验。</p>
-
-          <h3>5. GSX Pro</h3>
-          <p>地面服务插件，让你的飞行更加完整。</p>
-
-          <h3>6. Navigraph Charts</h3>
-          <p>专业航图插件，飞行必备。</p>
-
-          <h3>7. World Traffic</h3>
-          <p>实时AI交通，让天空更加繁忙。</p>
-
-          <h3>8. REX Sky Force 3D</h3>
-          <p>天空和云效果增强。</p>
-
-          <h3>9. Aerosoft CRJ</h3>
-          <p>优秀的支线客机模拟。</p>
-
-          <h3>10. FlyTampa 机场系列</h3>
-          <p>高质量的地景机场插件。</p>
-
-          <p>这些插件可以从<a href="#">Orbx</a>、<a href="#">SimMarket</a>等平台购买。</p>
-        `
-      },
-      {
-        id: 3,
-        title: '北京到上海航线详细飞行计划',
-        excerpt: '分享从北京首都机场到上海浦东机场的完整飞行计划和导航要点。',
-        category: '航线分享',
-        author: '航线专家',
-        authorInitial: '航',
-        image: 'https://neeko-copilot.bytedance.net/api/text2image?prompt=Cargo%20airplane%20Boeing%20777%20flying%20over%20city%20skyline%20at%20sunset%20professional%20photo&size=800x600',
-        date: '昨天',
-        keywords: ['北京', '上海', '航线', '飞行计划', 'ZBAA', 'ZSPD', '导航'],
-        content: `
-          <p>北京首都(ZBAA)到上海浦东(ZSPD)是中国最繁忙的航线之一，全程约1200公里。</p>
-
-          <h3>飞行计划概览</h3>
-          <ul>
-            <li><strong>起飞机场：</strong>北京首都国际机场 (ZBAA)</li>
-            <li><strong>降落机场：</strong>上海浦东国际机场 (ZSPD)</li>
-            <li><strong>距离：</strong>约1200公里</li>
-            <li><strong>飞行时间：</strong>约2小时15分钟</li>
-            <li><strong>巡航高度：</strong>FL330-FL370</li>
-          </ul>
-
-          <h3>标准离场程序 (SID)</h3>
-          <p>ZBAA常用SID：</p>
-          <ul>
-            <li>RUYAN 6D/6F</li>
-            <li>DONGM 6D/6F</li>
-            <li>BAODE 6D/6F</li>
-          </ul>
-
-          <h3>航线导航点</h3>
-          <p>主要导航点序列：</p>
-          <ol>
-            <li>ZBAA - 起飞</li>
-            <li>RUYAN - SID出口</li>
-            <li>NAKEM - 边界点</li>
-            <li>WOTAN - 航路点</li>
-            <li>LAMBO - 进入上海区域</li>
-            <li>ZSPD - 降落</li>
-          </ol>
-
-          <h3>进近程序 (STAR)</h3>
-          <p>ZSPD常用进近：</p>
-          <ul>
-            <li>RNAV RWY 17L/17R</li>
-            <li>ILS RWY 17L/17R</li>
-            <li>ILS RWY 35L/35R</li>
-          </ul>
-
-          <h3>注意事项</h3>
-          <ul>
-            <li>华东地区天气多变，注意雷雨</li>
-            <li>上海终端区交通繁忙，保持高度警惕</li>
-            <li>冬季注意低空风切变</li>
-          </ul>
-        `
-      },
-      {
-        id: 4,
-        title: '空客A320neo详细评测：新一代窄体客机之王',
-        excerpt: '深度评测空客A320neo的性能、系统和飞行感受。',
-        category: '机型评测',
-        author: '航空爱好者',
-        authorInitial: '爱',
-        image: 'https://neeko-copilot.bytedance.net/api/text2image?prompt=Airbus%20A380%20superjumbo%20airplane%20flying%20above%20clouds%20professional%20aviation%20photography&size=800x600',
-        date: '昨天',
-        keywords: ['空客', 'A320neo', '窄体客机', 'LEAP发动机', '鲨鳍小翼', '性能'],
-        content: `
-          <p>空客A320neo是A320家族的最新成员，采用了全新的发动机和鲨鳍小翼设计。</p>
-
-          <h3>性能参数</h3>
-          <ul>
-            <li><strong>最大起飞重量：</strong>78吨</li>
-            <li><strong>最大航程：</strong>6,900公里</li>
-            <li><strong>巡航速度：</strong>Mach 0.82</li>
-            <li><strong>载客量：</strong>150-180人</li>
-          </ul>
-
-          <h3>新技术亮点</h3>
-          <h4>1. LEAP-1A发动机</h4>
-          <p>由CFM国际公司生产，相比旧款发动机节省燃油约16%。</p>
-
-          <h4>2. 鲨鳍小翼</h4>
-          <p>全新设计的鲨鱼鳍形状小翼，进一步提升燃油效率。</p>
-
-          <h4>3. 驾驶舱升级</h4>
-          <p>采用最新的航电系统，包括更大的显示器和改进的HUD。</p>
-
-          <h3>飞行体验</h3>
-          <p>作为一名飞行员，我对A320neo的飞行感受印象深刻：</p>
-          <ul>
-            <li>起飞时推力充沛，爬升率出色</li>
-            <li>巡航时非常安静，乘客体验好</li>
-            <li>操纵响应精准，飞控系统先进</li>
-            <li>自动飞行系统非常可靠</li>
-          </ul>
-
-          <h3>优缺点总结</h3>
-          <h4>优点：</h4>
-          <ul>
-            <li>燃油效率高</li>
-            <li>维护成本低</li>
-            <li>乘客舒适度高</li>
-          </ul>
-          <h4>缺点：</h4>
-          <ul>
-            <li>价格较高</li>
-            <li>发动机噪音在某些工况下较大</li>
-          </ul>
-        `
-      },
-      {
-        id: 5,
-        title: '模拟飞行新手入门指南：从零开始学习飞行',
-        excerpt: '专为新手准备的入门教程，带你快速掌握模拟飞行的基础知识。',
-        category: '新手入门',
-        author: '新手导师',
-        authorInitial: '导',
-        image: 'https://neeko-copilot.bytedance.net/api/text2image?prompt=Small%20Cessna%20172%20propeller%20airplane%20flying%20over%20green%20countryside%20general%20aviation&size=800x600',
-        date: '2天前',
-        keywords: ['新手入门', '模拟飞行', '教程', 'X-Plane', '塞斯纳', '飞行摇杆'],
-        content: `
-          <p>欢迎来到模拟飞行的世界！本指南将帮助你快速入门。</p>
-
-          <h3>第一步：选择合适的模拟器</h3>
-          <ul>
-            <li><strong>微软飞行模拟2024</strong> - 最真实的模拟体验</li>
-            <li><strong>X-Plane 12</strong> - 优秀的飞行动力学</li>
-            <li><strong>Prepar3D</strong> - 专业级模拟平台</li>
-          </ul>
-
-          <h3>第二步：设置你的飞行环境</h3>
-          <h4>硬件建议：</h4>
-          <ul>
-            <li>飞行摇杆或操纵杆（必备）</li>
-            <li>方向舵踏板（推荐）</li>
-            <li>多显示器设置（进阶）</li>
-            <li>飞行仪表（进阶）</li>
-          </ul>
-
-          <h3>第三步：学习基本操作</h3>
-          <ol>
-            <li>熟悉驾驶舱布局</li>
-            <li>学习起飞和降落</li>
-            <li>掌握基本导航</li>
-            <li>了解飞行规则</li>
-          </ol>
-
-          <h3>第四步：练习计划</h3>
-          <h4>第一周：</h4>
-          <p>从简单的小型飞机开始，如塞斯纳172，练习起飞和降落。</p>
-
-          <h4>第二周：</h4>
-          <p>学习使用导航设备，进行短途飞行。</p>
-
-          <h4>第三周：</h4>
-          <p>尝试中型客机，学习自动驾驶系统。</p>
-
-          <h4>第四周：</h4>
-          <p>进行跨城飞行，学习完整的飞行流程。</p>
-
-          <h3>学习资源推荐</h3>
-          <ul>
-            <li>YouTube教程视频</li>
-            <li>官方论坛和社区</li>
-            <li>飞行学校在线课程</li>
-          </ul>
-
-          <blockquote>记住：飞行是一门需要不断练习的技能，耐心和坚持是成功的关键！</blockquote>
-        `
-      },
-      {
-        id: 6,
-        title: '绝美日落飞行截图分享',
-        excerpt: '分享在模拟飞行中捕捉到的最美日落时刻，附截图技巧。',
-        category: '精彩截图',
-        author: '摄影爱好者',
-        authorInitial: '摄',
-        image: 'https://neeko-copilot.bytedance.net/api/text2image?prompt=Commercial%20airplane%20silhouette%20flying%20into%20beautiful%20sunset%20sky%20dramatic%20colors&size=800x600',
-        date: '2天前',
-        keywords: ['截图', '日落', '摄影', '黄金时刻', '画面构图', '后期处理'],
-        content: `
-          <p>模拟飞行不仅是一种模拟体验，更是一种视觉享受。分享我的一些日落飞行截图和拍摄技巧。</p>
-
-          <h3>最佳拍摄时间</h3>
-          <ul>
-            <li><strong>黄金时刻：</strong>日出前30分钟到日出后1小时</li>
-            <li><strong>蓝调时刻：</strong>日落后20-40分钟</li>
-            <li><strong>日落时分：</strong>太阳接近地平线时</li>
-          </ul>
-
-          <h3>截图技巧</h3>
-          <h4>1. 选择合适的视角</h4>
-          <ul>
-            <li>驾驶舱视角：展示日落与仪表盘的对比</li>
-            <li>外部视角：捕捉飞机与日落的剪影</li>
-            <li>自由视角：寻找最佳构图</li>
-          </ul>
-
-          <h4>2. 调整画面构图</h4>
-          <p>使用三分法构图，将地平线放在画面三分之一处。</p>
-
-          <h4>3. 使用滤镜和效果</h4>
-          <p>许多模拟器支持画面调整：</p>
-          <ul>
-            <li>调整对比度和饱和度</li>
-            <li>添加轻微的光晕效果</li>
-            <li>使用景深效果</li>
-          </ul>
-
-          <h3>推荐拍摄地点</h3>
-          <ul>
-            <li><strong>海上日落：</strong>飞越海洋时</li>
-            <li><strong>城市日落：</strong>接近大型机场时</li>
-            <li><strong>山区日落：</strong>飞越山脉时</li>
-          </ul>
-
-          <h3>后期处理建议</h3>
-          <p>使用Photoshop或Lightroom进行后期：</p>
-          <ul>
-            <li>调整色温，增强暖色调</li>
-            <li>增加暗角效果</li>
-            <li>微调对比度</li>
-          </ul>
-
-          <p>希望这些技巧能帮助你捕捉到美丽的飞行瞬间！</p>
-        `
-      },
-      {
-        id: 7,
-        title: 'ILS仪表着陆系统详解',
-        excerpt: '深入讲解ILS系统的工作原理和操作方法，助你掌握盲降技术。',
-        category: '飞行技巧',
-        author: '仪表专家',
-        authorInitial: '仪',
-        image: 'https://neeko-copilot.bytedance.net/api/text2image?prompt=Airplane%20approaching%20airport%20for%20landing%20with%20landing%20lights%20on%20night%20flight&size=800x600',
-        date: '3天前',
-        keywords: ['ILS', '仪表着陆', '盲降', '航向道', '下滑道', '精密进近'],
-        content: `
-          <p>ILS（仪表着陆系统）是飞机在低能见度条件下进行精密进近和着陆的关键设备。</p>
-
-          <h3>ILS系统组成</h3>
-          <ul>
-            <li><strong>LOC (Localizer)：</strong>航向道，提供水平引导</li>
-            <li><strong>GS (Glideslope)：</strong>下滑道，提供垂直引导</li>
-            <li><strong>MB (Marker Beacons)：</strong>距离标记点</li>
-            <li><strong>RA (Receiver)：</strong>机载接收设备</li>
-          </ul>
-
-          <h3>工作原理</h3>
-          <p>ILS通过地面发射台发射特定频率的信号，飞机上的接收器解码这些信号并显示在仪表上。</p>
-
-          <h4>航向道 (LOC)</h4>
-          <p>航向道信号呈扇形发射，覆盖跑道中心线两侧各10度。</p>
-
-          <h4>下滑道 (GS)</h4>
-          <p>下滑道信号形成一个约3度的下滑角，引导飞机以正确的角度下降。</p>
-
-          <h3>仪表指示</h3>
-          <p>在驾驶舱中，ILS信息显示在HSI（水平状态指示器）上：</p>
-          <ul>
-            <li>水平指针：显示偏离航向道的情况</li>
-            <li>垂直指针：显示偏离下滑道的情况</li>
-            <li>CDI刻度：显示偏离程度</li>
-          </ul>
-
-          <h3>ILS进近步骤</h3>
-          <ol>
-            <li>在指定频率调谐ILS</li>
-            <li>截获航向道</li>
-            <li>截获下滑道</li>
-            <li>保持在航道上</li>
-            <li>根据DH（决断高度）决定着陆或复飞</li>
-          </ol>
-
-          <h3>常见问题和注意事项</h3>
-          <ul>
-            <li>注意ILS信号可能受地形影响</li>
-            <li>严格遵守最低下降高度</li>
-            <li>失去目视参考时必须复飞</li>
-          </ul>
-        `
-      },
-      {
-        id: 8,
-        title: '洛克希德C-130大力神运输机体验',
-        excerpt: '体验驾驶传奇运输机C-130的独特感受，感受军用运输机的魅力。',
-        category: '机型评测',
-        author: '军机迷',
-        authorInitial: '军',
-        image: 'https://neeko-copilot.bytedance.net/api/text2image?prompt=Military%20C-130%20Hercules%20transport%20aircraft%20flying%20over%20mountain%20range%20military%20aviation&size=800x600',
-        date: '3天前',
-        keywords: ['C-130', '大力神', '运输机', '军用', '洛克希德', '战术空运'],
-        content: `
-          <p>洛克希德C-130大力神是世界上最著名的军用运输机之一，服役超过60年。</p>
-
-          <h3>机型历史</h3>
-          <p>C-130于1954年首飞，至今已有超过25个国家使用，生产数量超过2500架。</p>
-
-          <h3>性能参数</h3>
-          <ul>
-            <li><strong>最大起飞重量：</strong>70吨</li>
-            <li><strong>最大载重：</strong>20吨</li>
-            <li><strong>最大航程：</strong>3,800公里</li>
-            <li><strong>巡航速度：</strong>590公里/小时</li>
-          </ul>
-
-          <h3>驾驶体验</h3>
-          <h4>起飞阶段</h4>
-          <p>C-130的起飞非常有力量感，四台涡轮螺旋桨发动机提供充足的推力。短距起飞能力出色，可以在简易跑道上起降。</p>
-
-          <h4>巡航阶段</h4>
-          <p>作为螺旋桨飞机，巡航时噪音较大，但视野开阔。驾驶舱布局相对简单，操作直接。</p>
-
-          <h4>降落阶段</h4>
-          <p>C-130具有出色的低速操控性，可以以较低的速度进近。降落时要注意保持正确的姿态。</p>
-
-          <h3>独特功能</h3>
-          <ul>
-            <li><strong>尾部装卸坡道：</strong>方便快速装卸货物</li>
-            <li><strong>伞兵投放：</strong>支持大规模空降</li>
-            <li><strong>空中加油：</strong>延长航程</li>
-          </ul>
-
-          <h3>模拟飞行中的C-130</h3>
-          <p>在模拟飞行中体验C-130是一种独特的体验：</p>
-          <ul>
-            <li>尝试在短跑道上起降</li>
-            <li>练习低空通场</li>
-            <li>体验空投任务</li>
-          </ul>
-
-          <blockquote>C-130不仅仅是一架飞机，它是航空史上的传奇！</blockquote>
-        `
-      },
-      {
-        id: 9,
-        title: '东京羽田机场进近教程',
-        excerpt: '详细讲解东京羽田机场的进近程序和注意事项。',
-        category: '飞行技巧',
-        author: '国际飞手',
-        authorInitial: '国',
-        image: 'https://neeko-copilot.bytedance.net/api/text2image?prompt=Japanese%20airline%20airplane%20flying%20over%20Tokyo%20city%20skyline%20Mount%20Fuji%20background&size=800x600',
-        date: '4天前',
-        content: `
-          <p>东京羽田国际机场(RJTT)是日本最繁忙的机场之一，进近程序相对复杂。</p>
-
-          <h3>机场概况</h3>
-          <ul>
-            <li><strong>跑道：</strong>4条跑道（05/23, 16L/R/34L/R）</li>
-            <li><strong>地理位置：</strong>位于东京湾，靠近市区</li>
-            <li><strong>交通流量：</strong>非常繁忙</li>
-          </ul>
-
-          <h3>常用进近程序</h3>
-          <h4>1. ILS RWY 05</h4>
-          <p>从东南方向进近，飞越东京湾。</p>
-
-          <h4>2. ILS RWY 23</h4>
-          <p>从西北方向进近，需要注意避开市区建筑。</p>
-
-          <h4>3. RNAV RWY 16L/R</h4>
-          <p>从南部进近，较为复杂。</p>
-
-          <h3>进近步骤详解</h3>
-          <h4>以ILS RWY 05为例：</h4>
-          <ol>
-            <li>在KOMAT调谐ILS 110.30MHz</li>
-            <li>截获航向道，保持3000英尺</li>
-            <li>下降至IFR高度</li>
-            <li>截获下滑道</li>
-            <li>保持航道，准备着陆</li>
-          </ol>
-
-          <h3>特殊注意事项</h3>
-          <ul>
-            <li><strong>噪音限制：</strong>羽田机场有严格的噪音限制</li>
-            <li><strong>地形：</strong>机场周围有山地，注意高度</li>
-            <li><strong>交通：</strong>保持高度警惕，听从ATC指令</li>
-            <li><strong>天气：</strong>冬季常有低云和降雨</li>
-          </ul>
-
-          <h3>目视进近技巧</h3>
-          <p>良好天气时可以进行目视进近：</p>
-          <ul>
-            <li>寻找地标：东京塔、彩虹桥</li>
-            <li>保持正确的下降角度</li>
-            <li>注意风切变</li>
-          </ul>
-
-          <p>羽田机场的进近是对飞行员技术的考验，祝你飞行顺利！</p>
-        `
-      },
-      {
-        id: 10,
-        title: '模拟飞行配置推荐：打造完美飞行环境',
-        excerpt: '推荐适合模拟飞行的硬件配置和软件设置。',
-        category: '插件推荐',
-        author: '配置达人',
-        authorInitial: '配',
-        image: 'https://neeko-copilot.bytedance.net/api/text2image?prompt=Modern%20flight%20simulator%20cockpit%20with%20multiple%20monitors%20and%20controls%20gaming%20setup&size=800x600',
-        date: '5天前',
-        content: `
-          <p>一个良好的飞行模拟环境需要合适的硬件和软件配置。</p>
-
-          <h3>电脑配置推荐</h3>
-          <h4>入门配置：</h4>
-          <ul>
-            <li>CPU: Intel i5-10400F / AMD Ryzen 5 5600</li>
-            <li>显卡: NVIDIA GTX 1660 / AMD RX 5600 XT</li>
-            <li>内存: 16GB DDR4</li>
-            <li>存储: 500GB SSD</li>
-          </ul>
-
-          <h4>推荐配置：</h4>
-          <ul>
-            <li>CPU: Intel i7-12700K / AMD Ryzen 7 7700X</li>
-            <li>显卡: NVIDIA RTX 4070 / AMD RX 7800 XT</li>
-            <li>内存: 32GB DDR5</li>
-            <li>存储: 1TB NVMe SSD</li>
-          </ul>
-
-          <h4>高端配置：</h4>
-          <ul>
-            <li>CPU: Intel i9-13900K / AMD Ryzen 9 7950X</li>
-            <li>显卡: NVIDIA RTX 4090</li>
-            <li>内存: 64GB DDR5</li>
-            <li>存储: 2TB NVMe SSD</li>
-          </ul>
-
-          <h3>外设推荐</h3>
-          <h4>必备外设：</h4>
-          <ul>
-            <li><strong>飞行摇杆：</strong>Logitech X56 / Thrustmaster T16000M</li>
-            <li><strong>方向舵踏板：</strong>Logitech G Pro / Thrustmaster TFRP</li>
-          </ul>
-
-          <h4>进阶外设：</h4>
-          <ul>
-            <li><strong>多功能面板：</strong>Stream Deck</li>
-            <li><strong>飞行仪表：</strong>Saitek Instrument Panel</li>
-            <li><strong>头戴显示器：</strong>Varjo Aero</li>
-          </ul>
-
-          <h3>软件设置优化</h3>
-          <ul>
-            <li>更新显卡驱动</li>
-            <li>调整模拟器图形设置</li>
-            <li>优化Windows电源计划</li>
-            <li>关闭后台不必要的程序</li>
-          </ul>
-
-          <h3>网络要求</h3>
-          <p>在线飞行需要稳定的网络连接：</p>
-          <ul>
-            <li>下载速度：至少10Mbps</li>
-            <li>上传速度：至少5Mbps</li>
-            <li>低延迟：<50ms</li>
-          </ul>
-
-          <p>根据你的预算选择合适的配置，享受飞行的乐趣！</p>
-        `
-      },
-      {
-        id: 11,
-        title: '夜间飞行技巧与注意事项',
-        excerpt: '夜间飞行需要注意什么？这篇文章告诉你。',
-        category: '飞行技巧',
-        author: '夜航专家',
-        authorInitial: '夜',
-        image: 'https://neeko-copilot.bytedance.net/api/text2image?prompt=Airplane%20flying%20at%20night%20with%20city%20lights%20below%20starry%20sky%20aviation%20photography&size=800x600',
-        date: '1周前',
-        content: `
-          <p>夜间飞行是一项特殊的挑战，需要额外的准备和技巧。</p>
-
-          <h3>飞行前准备</h3>
-          <ul>
-            <li><strong>检查设备：</strong>确保所有灯光正常工作</li>
-            <li><strong>天气简报：</strong>特别关注能见度和云底高度</li>
-            <li><strong>计划路线：</strong>选择有充足导航设施的航线</li>
-            <li><strong>休息充足：</strong>保证良好的精神状态</li>
-          </ul>
-
-          <h3>驾驶舱设置</h3>
-          <ul>
-            <li>调整仪表亮度</li>
-            <li>使用红色滤镜保护夜视</li>
-            <li>关闭不必要的灯光</li>
-          </ul>
-
-          <h3>视觉技巧</h3>
-          <h4>1. 保持扫视</h4>
-          <p>不要长时间注视一个点，定期扫视仪表和窗外。</p>
-
-          <h4>2. 利用地标</h4>
-          <p>寻找城市灯光、河流、道路等作为导航参考。</p>
-
-          <h4>3. 注意深度感知</h4>
-          <p>夜间深度感知困难，依靠仪表判断高度和距离。</p>
-
-          <h3>进近和着陆</h3>
-          <ul>
-            <li>使用仪表进近程序</li>
-            <li>保持稳定的进近速度</li>
-            <li>注意跑道灯光</li>
-            <li>准备好复飞计划</li>
-          </ul>
-
-          <h3>常见危险</h3>
-          <ul>
-            <li><strong>空间定向障碍：</strong>依靠仪表而非感觉</li>
-            <li><strong>疲劳：</strong>夜间更容易疲劳</li>
-            <li><strong>迷航：</strong>严格遵守导航计划</li>
-            <li><strong>野生动物：</strong>夜间鸟类活动减少但仍需注意</li>
-          </ul>
-
-          <h3>心理准备</h3>
-          <p>夜间飞行可能会感到孤独或紧张，保持自信和平静很重要。</p>
-
-          <blockquote>夜间飞行可以非常美丽，城市的灯光像星星一样闪烁。享受这段旅程！</blockquote>
-        `
-      },
-      {
-        id: 12,
-        title: '塞斯纳172入门飞行训练',
-        excerpt: '最经典的通用航空飞机，学习飞行的最佳起点。',
-        category: '新手入门',
-        author: '飞行教练',
-        authorInitial: '教',
-        image: 'https://neeko-copilot.bytedance.net/api/text2image?prompt=Small%20private%20Cessna%20airplane%20parked%20on%20airport%20tarmac%20general%20aviation%20sunny%20day&size=800x600',
-        date: '1周前',
-        content: `
-          <p>塞斯纳172是世界上最受欢迎的通用航空飞机，是学习飞行的理想选择。</p>
-
-          <h3>机型简介</h3>
-          <ul>
-            <li><strong>类型：</strong>单发四座螺旋桨飞机</li>
-            <li><strong>最大起飞重量：</strong>1,110公斤</li>
-            <li><strong>巡航速度：</strong>220公里/小时</li>
-            <li><strong>航程：</strong>1,200公里</li>
-          </ul>
-
-          <h3>驾驶舱熟悉</h3>
-          <h4>主要仪表：</h4>
-          <ul>
-            <li><strong>空速表：</strong>指示飞行速度</li>
-            <li><strong>高度表：</strong>指示飞行高度</li>
-            <li><strong>航向仪：</strong>指示飞行方向</li>
-            <li><strong>垂直速度表：</strong>指示爬升/下降率</li>
-            <li><strong>姿态指示器：</strong>指示飞机姿态</li>
-          </ul>
-
-          <h3>起飞训练</h3>
-          <ol>
-            <li>完成起飞前检查清单</li>
-            <li>对准跑道中心线</li>
-            <li>缓慢推油门至全功率</li>
-            <li>保持直线滑行</li>
-            <li>达到VR速度时轻轻拉杆</li>
-            <li>爬升至安全高度</li>
-          </ol>
-
-          <h3>巡航飞行</h3>
-          <ul>
-            <li>设置巡航功率（约75%）</li>
-            <li>调整配平保持水平飞行</li>
-            <li>监控燃油和温度</li>
-            <li>定期检查仪表</li>
-          </ul>
-
-          <h3>降落训练</h3>
-          <ol>
-            <li>建立进近航线</li>
-            <li>降低高度和速度</li>
-            <li>放下起落架和襟翼</li>
-            <li>保持稳定的下滑道</li>
-            <li>拉平飞机</li>
-            <li>轻柔触地</li>
-          </ol>
-
-          <h3>练习建议</h3>
-          <ul>
-            <li>每天练习起飞和降落</li>
-            <li>学习使用无线电通讯</li>
-            <li>尝试不同的天气条件</li>
-            <li>积累飞行小时数</li>
-          </ul>
-
-          <blockquote>塞斯纳172是一架非常 forgiving 的飞机，是学习飞行的最佳起点。多练习，你会爱上飞行的！</blockquote>
-        `
-      }
-    ];
-
-    function renderPosts(postsData) {
-      const grid = document.getElementById('postsGrid');
-      grid.innerHTML = '';
-      
-      postsData.forEach(post => {
-        const card = document.createElement('div');
-        card.className = 'post-card';
-        card.dataset.id = post.id;
-        card.innerHTML = `
-          <div class="post-image"><img src="${post.image}" alt="${post.title}"></div>
-          <div class="post-content">
-            <span class="post-category">${post.category}</span>
-            <h4 class="post-title">${post.title}</h4>
-            <p class="post-excerpt">${post.excerpt}</p>
-            <div class="post-meta">
-              <div class="post-author">
-                <div class="author-avatar">${post.authorInitial}</div>
-                <span>${post.author}</span>
-              </div>
-              <span>${post.date}</span>
+    <!-- 欢迎页面 -->
+    <div class="welcome-page" id="welcomePage">
+        <div class="welcome-container">
+            <div class="logo">✈️</div>
+            <h1 class="title">YTC飞行论坛</h1>
+            <p class="subtitle">欢迎来到模拟飞行爱好者的聚集地</p>
+            <button class="enter-btn" onclick="enterForum()">进入论坛</button>
+            
+            <div class="features">
+                <div class="feature-item">
+                    <span>📦</span>
+                    <p>插件分享</p>
+                </div>
+                <div class="feature-item">
+                    <span>🎓</span>
+                    <p>新手教程</p>
+                </div>
+                <div class="feature-item">
+                    <span>📷</span>
+                    <p>画面截图</p>
+                </div>
+                <div class="feature-item">
+                    <span>💬</span>
+                    <p>飞行交流</p>
+                </div>
             </div>
-          </div>
-        `;
-        card.addEventListener('click', () => openPost(post));
-        grid.appendChild(card);
-      });
-    }
+        </div>
+    </div>
 
-    function openPost(post) {
-      document.getElementById('modalImage').innerHTML = `<img src="${post.image}" alt="${post.title}">`;
-      document.getElementById('modalCategory').textContent = post.category;
-      document.getElementById('modalTitle').textContent = post.title;
-      document.getElementById('modalAuthorAvatar').textContent = post.authorInitial;
-      document.getElementById('modalAuthor').textContent = post.author;
-      document.getElementById('modalDate').textContent = post.date;
-      document.getElementById('modalContent').innerHTML = post.content;
-      document.getElementById('postModal').classList.add('show');
-      document.body.style.overflow = 'hidden';
-    }
+    <!-- 论坛页面 -->
+    <div class="forum-page" id="forumPage">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-left">
+                <button class="add-btn" id="addBtn">+</button>
+                <button class="chat-btn" id="chatBtn">💬 聊天室</button>
+            </div>
+            <div class="navbar-title">YTC飞行论坛</div>
+            <div class="search-bar">
+                <span class="icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="搜索帖子...">
+            </div>
+        </nav>
 
-    function closeModal() {
-      document.getElementById('postModal').classList.remove('show');
-      document.body.style.overflow = '';
-    }
+        <!-- 主内容 -->
+        <main class="main-container">
+            <!-- 板块网格 -->
+            <div class="sections-grid" id="sectionsGrid">
+                <div class="section-card" data-section="plugins">
+                    <div class="section-icon">📦</div>
+                    <h3 class="section-title">模拟飞行插件</h3>
+                    <p class="section-desc">分享和讨论各类飞行模拟插件</p>
+                    <span class="section-count" id="countPlugins">0 个帖子</span>
+                </div>
+                <div class="section-card" data-section="encyclopedia">
+                    <div class="section-icon">📚</div>
+                    <h3 class="section-title">飞行百科</h3>
+                    <p class="section-desc">飞行知识与技术百科全书</p>
+                    <span class="section-count" id="countEncyclopedia">0 个帖子</span>
+                </div>
+                <div class="section-card" data-section="screenshots">
+                    <div class="section-icon">📷</div>
+                    <h3 class="section-title">画面截图</h3>
+                    <p class="section-desc">分享精彩的飞行画面截图</p>
+                    <span class="section-count" id="countScreenshots">0 个帖子</span>
+                </div>
+                <div class="section-card" data-section="tutorials">
+                    <div class="section-icon">🎓</div>
+                    <h3 class="section-title">新手教程</h3>
+                    <p class="section-desc">新手入门教程与技巧分享</p>
+                    <span class="section-count" id="countTutorials">0 个帖子</span>
+                </div>
+                <div class="section-card" data-section="background">
+                    <div class="section-icon">🖼️</div>
+                    <h3 class="section-title">背景安装</h3>
+                    <p class="section-desc">地景与背景安装教程分享</p>
+                    <span class="section-count" id="countBackground">0 个帖子</span>
+                </div>
+                <div class="section-card" data-section="sharing">
+                    <div class="section-icon">🤝</div>
+                    <h3 class="section-title">插件分享</h3>
+                    <p class="section-desc">分享自制或精选插件资源</p>
+                    <span class="section-count" id="countSharing">0 个帖子</span>
+                </div>
+            </div>
 
-    document.getElementById('modalClose').addEventListener('click', closeModal);
-    
-    document.getElementById('postModal').addEventListener('click', (e) => {
-      if (e.target === document.getElementById('postModal')) {
-        closeModal();
-      }
-    });
+            <!-- 帖子列表区域 -->
+            <div class="posts-container" id="postsContainer">
+                <div class="back-btn" onclick="backToSections()">
+                    <span>←</span>
+                    <span>返回板块</span>
+                </div>
+                <h2 class="posts-title" id="postsTitle"></h2>
+                <div class="posts-list" id="postsList"></div>
+            </div>
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeModal();
-      }
-    });
+            <!-- 搜索结果区域 -->
+            <div class="search-results" id="searchResults" style="display: none;">
+                <h2 class="search-title" id="searchTitle"></h2>
+                <div class="posts-list" id="searchList"></div>
+            </div>
+        </main>
+    </div>
 
-    renderPosts(posts);
+    <!-- 帖子详情弹窗 -->
+    <div class="modal-overlay" id="detailOverlay">
+        <div class="modal detail-modal">
+            <button class="modal-close" id="detailClose">×</button>
+            <h2 class="modal-title" id="detailTitle"></h2>
+            <div class="modal-meta" id="detailMeta"></div>
+            <div class="modal-content" id="detailContent"></div>
+            
+            <!-- 评论区域 -->
+            <div class="comments-section">
+                <h3 class="comments-title">
+                    <span>💬</span>
+                    <span>评论</span>
+                    <span class="comment-count" id="commentCount">(0)</span>
+                </h3>
+                
+                <!-- 评论列表 -->
+                <div id="commentsList" class="comments-list">
+                    <div class="empty-comments">
+                        <p>暂无评论，快来发表第一条评论吧！</p>
+                    </div>
+                </div>
+                
+                <!-- 评论输入框 -->
+                <div class="comment-input-section">
+                    <textarea id="commentInput" placeholder="发表你的评论..."></textarea>
+                    <button class="btn btn-primary comment-submit" id="submitComment">发送评论</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    const tags = document.querySelectorAll('.tag');
-    tags.forEach(tag => {
-      tag.addEventListener('click', () => {
-        tags.forEach(t => t.classList.remove('active'));
-        tag.classList.add('active');
-        
-        const category = tag.textContent;
-        if (category === '全部') {
-          renderPosts(posts);
-        } else {
-          const filtered = posts.filter(p => p.category === category);
-          renderPosts(filtered);
+    <!-- 发帖弹窗 -->
+    <div class="modal-overlay" id="postOverlay">
+        <div class="modal post-modal">
+            <button class="modal-close" id="postClose">×</button>
+            <h2 class="modal-title">发布新帖</h2>
+            <div class="form-group">
+                <label>选择板块</label>
+                <select id="postSection">
+                    <option value="plugins">模拟飞行插件</option>
+                    <option value="encyclopedia">飞行百科</option>
+                    <option value="screenshots">画面截图</option>
+                    <option value="tutorials">新手教程</option>
+                    <option value="background">背景安装</option>
+                    <option value="sharing">插件分享</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>帖子标题</label>
+                <input type="text" id="postTitle" placeholder="请输入帖子标题">
+            </div>
+            <div class="form-group">
+                <label>帖子内容</label>
+                <textarea id="postContent" placeholder="请输入帖子内容..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" id="postCancel">取消</button>
+                <button class="btn btn-primary" id="postSubmit">发布</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 聊天室弹窗 -->
+    <div class="modal-overlay" id="chatOverlay">
+        <div class="modal chat-modal">
+            <div class="chat-header">
+                <div class="chat-title">✈️ 飞行爱好者聊天室</div>
+                <div class="online-users" id="onlineUsers">在线用户: 0</div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message">
+                    <div class="chat-avatar">S</div>
+                    <div class="chat-bubble">
+                        <div class="chat-author">系统</div>
+                        <div class="chat-text">欢迎来到YTC飞行论坛聊天室！</div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-section">
+                <input type="text" id="chatInput" placeholder="输入消息...">
+                <button class="chat-send-btn" id="chatSend">发送</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 板块配置
+        const sections = {
+            plugins: { name: '模拟飞行插件', icon: '📦' },
+            encyclopedia: { name: '飞行百科', icon: '📚' },
+            screenshots: { name: '画面截图', icon: '📷' },
+            tutorials: { name: '新手教程', icon: '🎓' },
+            background: { name: '背景安装', icon: '🖼️' },
+            sharing: { name: '插件分享', icon: '🤝' }
+        };
+
+        // 默认帖子数据（含评论）
+        const defaultPosts = {
+            plugins: [
+                { 
+                    id: 1, 
+                    title: 'XP12 插件安装指南', 
+                    content: '本文详细介绍如何在X-Plane 12中安装和管理插件。\n\n1. 下载插件文件\n2. 解压到Resources/plugins目录\n3. 启动XP12，在插件菜单中启用\n4. 配置插件设置\n\n注意事项：\n- 确保插件版本与XP12兼容\n- 定期更新插件以获得最佳性能', 
+                    author: '飞行爱好者', 
+                    time: '2小时前',
+                    comments: [
+                        { id: 1, author: '新手飞行员', content: '非常有用的教程！', time: '1小时前' },
+                        { id: 2, author: '老司机', content: '补充一下，有些插件需要放在Community文件夹', time: '30分钟前' }
+                    ]
+                },
+                { id: 2, title: 'MSFS2020 实用插件推荐', content: '推荐几款MSFS2020必备插件：\n\n✅ Navigraph - 实时导航数据\n✅ Active Sky - 真实天气\n✅ GSX Pro - 地勤服务\n✅ PMDG 737 - 高质量客机\n\n这些插件能极大提升飞行体验！', author: '资深飞行员', time: '5小时前', comments: [] }
+            ],
+            encyclopedia: [
+                { id: 3, title: '飞行仪表完全指南', content: '飞行仪表是飞行员最重要的工具，本文介绍主要仪表：\n\n📊 姿态指示器(AI)\n📡 航向指示器(HI)\n🌡️ 空速表(ASI)\n📏 高度表(ALT)\n\n了解这些仪表的读数和使用方法是成为合格飞行员的第一步。', author: '飞行教练', time: '1天前', comments: [] },
+                { id: 4, title: 'VFR目视飞行规则', content: '目视飞行规则(VFR)要求飞行员在可见条件下飞行：\n\n- 能见度至少3英里\n- 与云层保持至少500英尺垂直距离\n- 熟悉空域分类\n- 掌握导航技巧\n\nVFR飞行需要良好的天气判断能力。', author: '航空专家', time: '2天前', comments: [] }
+            ],
+            screenshots: [
+                { id: 5, title: '阿尔卑斯山日落美景', content: '在XP12中飞行穿越阿尔卑斯山脉时拍摄的日落美景，画面效果令人惊叹！\n\n配置：\n- 画质：Ultra\n- 滤镜：Reshade\n- 时间：黄昏\n\n附上截图供大家欣赏！', author: '摄影爱好者', time: '3小时前', comments: [] },
+                { id: 6, title: '波音747降落东京成田', content: '驾驶波音747在东京成田机场降落的精彩瞬间，完美的ILS进近！\n\n机型：PMDG 747-400\n机场：RJAA\n天气：晴朗', author: '波音迷', time: '6小时前', comments: [] }
+            ],
+            tutorials: [
+                { id: 7, title: '新手入门：如何启动飞机', content: '新手飞行员必看的启动教程：\n\n1. 检查外部设备\n2. 开启电源\n3. 设置导航频率\n4. 启动发动机\n5. 检查仪表\n6. 准备滑行\n\n跟着步骤操作，你也能成为优秀飞行员！', author: '新手导师', time: '4小时前', comments: [] },
+                { id: 8, title: 'ILS进近完全教程', content: '仪表着陆系统(ILS)进近步骤：\n\n📌 截获航向道(LOC)\n📌 截获下滑道(GS)\n📌 保持稳定下降\n📌 参考决断高度\n📌 执行着陆\n\n多加练习，ILS进近其实很简单！', author: '飞行教官', time: '1天前', comments: [] }
+            ],
+            background: [
+                { id: 9, title: 'XP12 地景安装教程', content: '为XP12安装高质量地景的方法：\n\n1. 下载地景文件\n2. 解压到Custom Scenery目录\n3. 调整地景加载顺序\n4. 启动XP12查看效果\n\n推荐网站：\n- flightsim.to\n- X-Plane.org', author: '地景达人', time: '2小时前', comments: [] },
+                { id: 10, title: '如何优化MSFS2020画面', content: '优化MSFS2020画面性能的技巧：\n\n🎨 降低纹理分辨率\n🌳 减少植被密度\n☁️ 降低云层质量\n🖥️ 使用DLSS/FSR\n\n找到画质与性能的平衡点！', author: '优化专家', time: '3天前', comments: [] }
+            ],
+            sharing: [
+                { id: 11, title: '自制XP11/XP12飞机插件', content: '分享我自制的小型飞机插件，支持XP11和XP12！\n\n特点：\n- 高精度建模\n- 真实飞行物理\n- 详细驾驶舱\n- 支持VR\n\n下载链接在评论区！', author: '插件开发者', time: '1小时前', comments: [] },
+                { id: 12, title: '免费地景资源分享', content: '整理了一些高质量的免费地景资源：\n\n🗺️ 全球高清地形\n🏙️ 城市地景包\n✈️ 机场增强\n\n全部免费下载，提升你的飞行体验！', author: '资源分享者', time: '4小时前', comments: [] }
+            ]
+        };
+
+        // 当前选中的帖子（用于评论）
+        let currentPost = null;
+
+        // 当前用户昵称（随机生成）
+        const userNicknames = ['飞行爱好者', '蓝天飞行员', '云中之鹰', '航空迷', '机长小王', '翱翔者', '天际行者', '云端漫步', '飞鸟一号', '御风而行'];
+        const currentUser = userNicknames[Math.floor(Math.random() * userNicknames.length)];
+
+        // 加载帖子数据
+        function loadPosts() {
+            const saved = localStorage.getItem('ytcForumPosts');
+            if (saved) {
+                try {
+                    return JSON.parse(saved);
+                } catch {
+                    return JSON.parse(JSON.stringify(defaultPosts));
+                }
+            }
+            localStorage.setItem('ytcForumPosts', JSON.stringify(defaultPosts));
+            return JSON.parse(JSON.stringify(defaultPosts));
         }
-      });
-    });
 
-    // Auth related code
-    const users = [];
-    let currentUser = null;
-
-    // Toast notification function
-    function showToast(message, type = 'info') {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.className = `toast show ${type}`;
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
-    }
-
-    // Auth modal elements
-    const authModal = document.getElementById('authModal');
-    const authModalTitle = document.getElementById('authModalTitle');
-    const authSubmitBtn = document.getElementById('authSubmitBtn');
-    const authSwitch = document.getElementById('authSwitch');
-    const toggleAuthModeBtn = document.getElementById('toggleAuthMode');
-    const phoneGroup = document.getElementById('phoneGroup');
-    const authForm = document.getElementById('authForm');
-
-    // Login/Register buttons
-    const loginBtn = document.getElementById('loginBtn');
-    const registerBtn = document.getElementById('registerBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const userInfo = document.getElementById('userInfo');
-    const userName = document.getElementById('userName');
-    const postBtn = document.getElementById('postBtn');
-
-    // New Post modal elements
-    const newPostModal = document.getElementById('newPostModal');
-    const newPostClose = document.getElementById('newPostClose');
-    const newPostSubmit = document.getElementById('newPostSubmit');
-
-    let isLoginMode = true;
-
-    // Toggle auth mode (login/register)
-    function toggleAuthMode() {
-      isLoginMode = !isLoginMode;
-      if (isLoginMode) {
-        authModalTitle.textContent = '登录';
-        authSubmitBtn.textContent = '登录';
-        authSwitch.innerHTML = '还没有账号？<button id="toggleAuthMode">立即注册</button>';
-        phoneGroup.style.display = 'none';
-      } else {
-        authModalTitle.textContent = '注册';
-        authSubmitBtn.textContent = '注册';
-        authSwitch.innerHTML = '已有账号？<button id="toggleAuthMode">立即登录</button>';
-        phoneGroup.style.display = 'block';
-      }
-      // Re-add event listener for toggle button
-      document.getElementById('toggleAuthMode').addEventListener('click', toggleAuthMode);
-    }
-
-    // Open auth modal
-    function openAuthModal(mode = 'login') {
-      isLoginMode = mode === 'login';
-      if (!isLoginMode) {
-        toggleAuthMode();
-      }
-      authModal.classList.add('show');
-      document.body.style.overflow = 'hidden';
-    }
-
-    // Close auth modal
-    function closeAuthModal() {
-      authModal.classList.remove('show');
-      document.body.style.overflow = '';
-      authForm.reset();
-    }
-
-    // Handle login
-    function handleLogin(username, password) {
-      const user = users.find(u => u.username === username && u.password === password);
-      if (user) {
-        currentUser = user;
-        updateUI();
-        closeAuthModal();
-        showToast(`欢迎回来，${user.username}！`, 'success');
-      } else {
-        showToast('用户名或密码错误', 'error');
-      }
-    }
-
-    // Handle register
-    function handleRegister(username, phone, password) {
-      if (users.find(u => u.username === username)) {
-        showToast('用户名已存在', 'error');
-        return;
-      }
-      if (users.find(u => u.phone === phone)) {
-        showToast('手机号已被注册', 'error');
-        return;
-      }
-      const newUser = {
-        username,
-        phone,
-        password,
-        avatar: username.charAt(0).toUpperCase()
-      };
-      users.push(newUser);
-      showToast('注册成功，请登录', 'success');
-      toggleAuthMode();
-      authForm.reset();
-    }
-
-    // Update UI based on login status
-    function updateUI() {
-      if (currentUser) {
-        loginBtn.style.display = 'none';
-        registerBtn.style.display = 'none';
-        userInfo.style.display = 'flex';
-        postBtn.style.display = 'block';
-        userName.textContent = currentUser.username;
-      } else {
-        loginBtn.style.display = 'block';
-        registerBtn.style.display = 'block';
-        userInfo.style.display = 'none';
-        postBtn.style.display = 'none';
-      }
-    }
-
-    // Handle auth submit
-    authSubmitBtn.addEventListener('click', () => {
-      const username = document.getElementById('authUsername').value.trim();
-      const password = document.getElementById('authPassword').value;
-      
-      if (!username || !password) {
-        showToast('请填写用户名和密码', 'error');
-        return;
-      }
-
-      if (isLoginMode) {
-        handleLogin(username, password);
-      } else {
-        const phone = document.getElementById('authPhone').value.trim();
-        if (!phone) {
-          showToast('请填写手机号', 'error');
-          return;
+        // 保存帖子数据
+        function savePosts(data) {
+            localStorage.setItem('ytcForumPosts', JSON.stringify(data));
         }
-        if (!/^1[3-9]\d{9}$/.test(phone)) {
-          showToast('请输入正确的手机号', 'error');
-          return;
+
+        // 帖子数据
+        const postsData = loadPosts();
+
+        // 进入论坛
+        function enterForum() {
+            document.getElementById('welcomePage').style.display = 'none';
+            document.getElementById('forumPage').style.display = 'block';
+            updateSectionCounts();
         }
-        handleRegister(username, phone, password);
-      }
-    });
 
-    // Event listeners for auth buttons
-    loginBtn.addEventListener('click', () => openAuthModal('login'));
-    registerBtn.addEventListener('click', () => openAuthModal('register'));
-    toggleAuthModeBtn.addEventListener('click', toggleAuthMode);
+        // 更新板块帖子数量
+        function updateSectionCounts() {
+            Object.keys(sections).forEach(key => {
+                const count = postsData[key].length;
+                document.getElementById(`count${key.charAt(0).toUpperCase() + key.slice(1)}`).textContent = `${count} 个帖子`;
+            });
+        }
 
-    // Close auth modal when clicking outside
-    authModal.addEventListener('click', (e) => {
-      if (e.target === authModal) {
-        closeAuthModal();
-      }
-    });
+        // 渲染板块列表
+        function renderSections() {
+            document.getElementById('sectionsGrid').style.display = 'grid';
+            document.getElementById('postsContainer').classList.remove('active');
+            document.getElementById('searchResults').style.display = 'none';
+        }
 
-    // Logout
-    logoutBtn.addEventListener('click', () => {
-      currentUser = null;
-      updateUI();
-      showToast('已退出登录', 'info');
-    });
+        // 渲染帖子列表
+        function renderPosts(section) {
+            document.getElementById('sectionsGrid').style.display = 'none';
+            document.getElementById('postsContainer').classList.add('active');
+            document.getElementById('searchResults').style.display = 'none';
+            document.getElementById('postsTitle').textContent = sections[section].name;
 
-    // Open new post modal
-    postBtn.addEventListener('click', () => {
-      if (!currentUser) {
-        showToast('请先登录', 'error');
-        return;
-      }
-      newPostModal.classList.add('show');
-      document.body.style.overflow = 'hidden';
-    });
+            const posts = postsData[section];
+            const postsList = document.getElementById('postsList');
 
-    // Close new post modal
-    function closeNewPostModal() {
-      newPostModal.classList.remove('show');
-      document.body.style.overflow = '';
-      document.getElementById('newPostForm').reset();
-    }
+            if (posts.length === 0) {
+                postsList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📝</div>
+                        <h3>暂无帖子</h3>
+                        <p>成为第一个发帖的人吧！</p>
+                    </div>
+                `;
+                return;
+            }
 
-    newPostClose.addEventListener('click', closeNewPostModal);
+            postsList.innerHTML = posts.map(post => {
+                const commentCount = post.comments ? post.comments.length : 0;
+                return `
+                    <div class="post-card" onclick="openPost('${section}', ${post.id})">
+                        <h3 class="post-title">${post.title}</h3>
+                        <div class="post-meta">
+                            <span>作者：${post.author}</span>
+                            <span>时间：${post.time}</span>
+                            <span>💬 ${commentCount} 评论</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
 
-    newPostModal.addEventListener('click', (e) => {
-      if (e.target === newPostModal) {
-        closeNewPostModal();
-      }
-    });
+        // 打开帖子详情
+        function openPost(section, id) {
+            const post = postsData[section].find(p => p.id === id);
+            if (!post) return;
 
-    // Submit new post
-    newPostSubmit.addEventListener('click', () => {
-      if (!currentUser) {
-        showToast('请先登录', 'error');
-        return;
-      }
+            currentPost = { section, post };
 
-      const title = document.getElementById('postTitle').value.trim();
-      const category = document.getElementById('postCategory').value;
-      const excerpt = document.getElementById('postExcerpt').value.trim();
-      const content = document.getElementById('postContent').value.trim();
+            document.getElementById('detailTitle').textContent = post.title;
+            document.getElementById('detailMeta').textContent = `作者：${post.author} | 时间：${post.time}`;
+            document.getElementById('detailContent').textContent = post.content;
+            
+            // 渲染评论
+            renderComments(post);
+            
+            document.getElementById('detailOverlay').classList.add('active');
+        }
 
-      if (!title || !category || !excerpt || !content) {
-        showToast('请填写所有字段', 'error');
-        return;
-      }
+        // 渲染评论
+        function renderComments(post) {
+            const commentsList = document.getElementById('commentsList');
+            const commentCount = document.getElementById('commentCount');
 
-      const newPost = {
-        id: posts.length + 1,
-        title,
-        excerpt,
-        category,
-        author: currentUser.username,
-        authorInitial: currentUser.avatar,
-        image: 'https://neeko-copilot.bytedance.net/api/text2image?prompt=Airplane%20flying%20in%20blue%20sky%20professional%20aviation%20photography&size=800x600',
-        date: '刚刚',
-        content: `<p>${content}</p>`
-      };
+            if (!post.comments || post.comments.length === 0) {
+                commentsList.innerHTML = `
+                    <div class="empty-comments">
+                        <p>暂无评论，快来发表第一条评论吧！</p>
+                    </div>
+                `;
+                commentCount.textContent = '(0)';
+                return;
+            }
 
-      posts.unshift(newPost);
-      renderPosts(posts);
-      closeNewPostModal();
-      showToast('帖子发布成功！', 'success');
-    });
+            commentCount.textContent = `(${post.comments.length})`;
 
-    // Close modals with Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeModal();
-        closeAuthModal();
-        closeNewPostModal();
-      }
-    });
+            commentsList.innerHTML = post.comments.map(comment => `
+                <div class="comment-item">
+                    <div class="comment-avatar">${comment.author.charAt(0)}</div>
+                    <div class="comment-content">
+                        <div class="comment-header">
+                            <span class="comment-author">${comment.author}</span>
+                            <span class="comment-time">${comment.time}</span>
+                        </div>
+                        <p class="comment-text">${comment.content}</p>
+                    </div>
+                </div>
+            `).join('');
 
-    // Search functionality
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const searchResults = document.getElementById('searchResults');
+            // 滚动到评论区底部
+            commentsList.scrollTop = commentsList.scrollHeight;
+        }
 
-    function performSearch() {
-      const keyword = searchInput.value.trim().toLowerCase();
-      
-      if (!keyword) {
-        searchResults.textContent = '';
-        renderPosts(posts);
-        return;
-      }
+        // 提交评论
+        function submitComment() {
+            const commentInput = document.getElementById('commentInput');
+            const content = commentInput.value.trim();
 
-      const filteredPosts = posts.filter(post => {
-        // Search in title
-        if (post.title.toLowerCase().includes(keyword)) return true;
-        // Search in excerpt
-        if (post.excerpt.toLowerCase().includes(keyword)) return true;
-        // Search in keywords
-        if (post.keywords && post.keywords.some(k => k.toLowerCase().includes(keyword))) return true;
-        // Search in category
-        if (post.category.toLowerCase().includes(keyword)) return true;
-        // Search in author
-        if (post.author.toLowerCase().includes(keyword)) return true;
-        return false;
-      });
+            if (!content) {
+                alert('请输入评论内容');
+                return;
+            }
 
-      if (filteredPosts.length > 0) {
-        searchResults.textContent = `找到 ${filteredPosts.length} 个相关帖子`;
-        renderPosts(filteredPosts);
-      } else {
-        searchResults.textContent = `没有找到包含 "${keyword}" 的帖子`;
-        renderPosts([]);
-      }
-    }
+            if (!currentPost) {
+                alert('发生错误，请重试');
+                return;
+            }
 
-    searchBtn.addEventListener('click', performSearch);
-    
-    searchInput.addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') {
-        performSearch();
-      }
-    });
-  </script>
+            const newComment = {
+                id: Date.now(),
+                author: currentUser,
+                content: content,
+                time: '刚刚'
+            };
+
+            if (!currentPost.post.comments) {
+                currentPost.post.comments = [];
+            }
+            currentPost.post.comments.push(newComment);
+
+            savePosts(postsData);
+            renderComments(currentPost.post);
+            commentInput.value = '';
+        }
+
+        // 关闭帖子详情
+        function closeDetail() {
+            document.getElementById('detailOverlay').classList.remove('active');
+            currentPost = null;
+        }
+
+        // 返回板块列表
+        function backToSections() {
+            renderSections();
+        }
+
+        // 搜索功能
+        function searchPosts() {
+            const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+            
+            if (!keyword) {
+                renderSections();
+                return;
+            }
+
+            const allPosts = [];
+            Object.keys(postsData).forEach(section => {
+                postsData[section].forEach(post => {
+                    allPosts.push({ ...post, section });
+                });
+            });
+
+            const filteredPosts = allPosts.filter(post => 
+                post.title.toLowerCase().includes(keyword) ||
+                post.content.toLowerCase().includes(keyword) ||
+                post.author.toLowerCase().includes(keyword)
+            );
+
+            document.getElementById('sectionsGrid').style.display = 'none';
+            document.getElementById('postsContainer').classList.remove('active');
+            document.getElementById('searchResults').style.display = 'block';
+            document.getElementById('searchTitle').textContent = `搜索结果: "${keyword}"`;
+
+            const searchList = document.getElementById('searchList');
+
+            if (filteredPosts.length === 0) {
+                searchList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">🔍</div>
+                        <h3>未找到相关帖子</h3>
+                        <p>请尝试其他关键词</p>
+                    </div>
+                `;
+                return;
+            }
+
+            searchList.innerHTML = filteredPosts.map(post => {
+                const commentCount = post.comments ? post.comments.length : 0;
+                return `
+                    <div class="post-card" onclick="openPost('${post.section}', ${post.id})">
+                        <h3 class="post-title">${post.title}</h3>
+                        <div class="post-meta">
+                            <span>${sections[post.section].name}</span>
+                            <span>作者：${post.author}</span>
+                            <span>时间：${post.time}</span>
+                            <span>💬 ${commentCount} 评论</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 打开发帖弹窗
+        function openPostModal() {
+            document.getElementById('postOverlay').classList.add('active');
+        }
+
+        // 关闭发帖弹窗
+        function closePostModal() {
+            document.getElementById('postOverlay').classList.remove('active');
+            document.getElementById('postTitle').value = '';
+            document.getElementById('postContent').value = '';
+        }
+
+        // 发布帖子
+        function submitPost() {
+            const section = document.getElementById('postSection').value;
+            const title = document.getElementById('postTitle').value.trim();
+            const content = document.getElementById('postContent').value.trim();
+
+            if (!title) {
+                alert('请输入帖子标题');
+                return;
+            }
+            if (!content) {
+                alert('请输入帖子内容');
+                return;
+            }
+
+            const newPost = {
+                id: Date.now(),
+                title,
+                content,
+                author: currentUser,
+                time: '刚刚',
+                comments: []
+            };
+
+            postsData[section].unshift(newPost);
+            savePosts(postsData);
+            closePostModal();
+            renderPosts(section);
+            updateSectionCounts();
+            alert('发布成功！');
+        }
+
+        // 聊天室功能
+        const chatMessages = [
+            { author: '系统', content: '欢迎来到YTC飞行论坛聊天室！', isSystem: true }
+        ];
+
+        function openChat() {
+            document.getElementById('chatOverlay').classList.add('active');
+            document.getElementById('onlineUsers').textContent = `在线用户: ${Math.floor(Math.random() * 10) + 5}`;
+        }
+
+        function closeChat() {
+            document.getElementById('chatOverlay').classList.remove('active');
+        }
+
+        function sendChatMessage() {
+            const chatInput = document.getElementById('chatInput');
+            const content = chatInput.value.trim();
+
+            if (!content) return;
+
+            const newMessage = {
+                author: currentUser,
+                content,
+                isOwn: true
+            };
+            chatMessages.push(newMessage);
+            renderChatMessages();
+            chatInput.value = '';
+
+            // 模拟其他用户回复
+            setTimeout(() => {
+                const botResponses = [
+                    '同意你的看法！',
+                    '很棒的想法！',
+                    '我也遇到过类似的情况',
+                    '谢谢分享！',
+                    '👍',
+                    '学习了！',
+                    '有什么推荐的插件吗？'
+                ];
+                const botNames = ['蓝天飞行员', '航空迷', '云端漫步', '御风而行'];
+                
+                const botMessage = {
+                    author: botNames[Math.floor(Math.random() * botNames.length)],
+                    content: botResponses[Math.floor(Math.random() * botResponses.length)],
+                    isOwn: false
+                };
+                chatMessages.push(botMessage);
+                renderChatMessages();
+            }, 1000 + Math.random() * 2000);
+        }
+
+        function renderChatMessages() {
+            const chatMessagesContainer = document.getElementById('chatMessages');
+            chatMessagesContainer.innerHTML = chatMessages.map(msg => `
+                <div class="chat-message${msg.isOwn ? ' own' : ''}">
+                    <div class="chat-avatar">${msg.author.charAt(0)}</div>
+                    <div class="chat-bubble">
+                        <div class="chat-author">${msg.author}</div>
+                        <div class="chat-text">${msg.content}</div>
+                    </div>
+                </div>
+            `).join('');
+            chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+        }
+
+        // 事件绑定
+        document.querySelectorAll('.section-card').forEach(card => {
+            card.addEventListener('click', function() {
+                renderPosts(this.dataset.section);
+            });
+        });
+
+        document.getElementById('addBtn').addEventListener('click', openPostModal);
+        document.getElementById('chatBtn').addEventListener('click', openChat);
+        document.getElementById('postClose').addEventListener('click', closePostModal);
+        document.getElementById('postCancel').addEventListener('click', closePostModal);
+        document.getElementById('postSubmit').addEventListener('click', submitPost);
+        document.getElementById('detailClose').addEventListener('click', closeDetail);
+        document.getElementById('searchInput').addEventListener('input', searchPosts);
+        document.getElementById('submitComment').addEventListener('click', submitComment);
+        document.getElementById('chatSend').addEventListener('click', sendChatMessage);
+
+        // 点击弹窗外部关闭
+        document.getElementById('detailOverlay').addEventListener('click', function(e) {
+            if (e.target === document.getElementById('detailOverlay')) closeDetail();
+        });
+        document.getElementById('postOverlay').addEventListener('click', function(e) {
+            if (e.target === document.getElementById('postOverlay')) closePostModal();
+        });
+        document.getElementById('chatOverlay').addEventListener('click', function(e) {
+            if (e.target === document.getElementById('chatOverlay')) closeChat();
+        });
+
+        // 回车键发送消息
+        document.getElementById('chatInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+        document.getElementById('commentInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                submitComment();
+            }
+        });
+    </script>
 </body>
 </html>
