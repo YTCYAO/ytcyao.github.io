@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新游戏计划</title>
+    <title>无规则网站</title>
     <style>
+        :root {
+            --pink: #ff7ab0;
+            --pink-dark: #ef5f98;
+            --pink-light: #ffc2d9;
+            --pink-bg: #fff5f9;
+            --pink-bg2: #ffe8f1;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,18 +21,18 @@
 
         body {
             font-family: 'Helvetica Neue', Arial, 'Microsoft YaHei', sans-serif;
-            background: #fff;
-            color: #000;
+            background: var(--pink-bg);
+            color: #333;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* ================= 落地页 ================= */
         .landing-page {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             position: relative;
+            background: linear-gradient(135deg, var(--pink-bg) 0%, #fff 100%);
         }
 
         .landing-page.hidden {
@@ -44,17 +52,19 @@
         }
 
         .nav-logo {
-            font-size: 20px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            color: #000;
+        }
+
+        .nav-bar .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .join-btn {
             padding: 10px 28px;
-            background: #000;
+            background: var(--pink);
             color: #fff;
-            border: 2px solid #000;
+            border: 2px solid var(--pink);
             border-radius: 0;
             font-size: 14px;
             font-weight: 700;
@@ -65,7 +75,7 @@
 
         .join-btn:hover {
             background: #fff;
-            color: #000;
+            color: var(--pink-dark);
         }
 
         .landing-content {
@@ -81,15 +91,16 @@
         .landing-title {
             font-size: 64px;
             font-weight: 900;
-            line-height: 1.1;
+            line-height: 1.15;
             letter-spacing: -2px;
             margin-bottom: 24px;
             max-width: 800px;
+            color: #333;
         }
 
         .landing-subtitle {
             font-size: 18px;
-            color: #666;
+            color: #888;
             max-width: 560px;
             line-height: 1.7;
             margin-bottom: 40px;
@@ -97,9 +108,9 @@
 
         .landing-cta {
             padding: 14px 42px;
-            background: #000;
+            background: var(--pink);
             color: #fff;
-            border: 2px solid #000;
+            border: 2px solid var(--pink);
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
@@ -109,7 +120,7 @@
 
         .landing-cta:hover {
             background: #fff;
-            color: #000;
+            color: var(--pink-dark);
         }
 
         .deco-lines {
@@ -125,7 +136,7 @@
         .deco-line {
             position: absolute;
             bottom: 0;
-            background: #000;
+            background: var(--pink-light);
         }
 
         .deco-line:nth-child(1) { left: 10%; width: 1px; height: 80px; }
@@ -135,11 +146,11 @@
         .deco-line:nth-child(5) { right: 15%; width: 1px; height: 160px; }
         .deco-line:nth-child(6) { right: 5%; width: 1px; height: 50px; }
 
-        /* ================= 主页面 ================= */
         .main-page {
             display: none;
             min-height: 100vh;
             flex-direction: column;
+            background: var(--pink-bg);
         }
 
         .main-page.active {
@@ -151,7 +162,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 24px 48px;
-            border-bottom: 1px solid #000;
+            border-bottom: 1px solid var(--pink-light);
             background: #fff;
             position: sticky;
             top: 0;
@@ -162,7 +173,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            color: #000;
+            color: #333;
         }
 
         .author-text {
@@ -180,6 +191,7 @@
             font-size: 19px;
             font-weight: 900;
             line-height: 1;
+            color: var(--pink-dark);
         }
 
         .author-name .rest-name {
@@ -190,7 +202,7 @@
 
         .author-subtitle {
             font-size: 10px;
-            color: #999;
+            color: #bbb;
             font-weight: 400;
             margin-top: 3px;
             letter-spacing: 1px;
@@ -199,7 +211,7 @@
         .dots-btn {
             background: none;
             border: none;
-            color: #000;
+            color: var(--pink);
             font-size: 20px;
             cursor: pointer;
             padding: 0 4px;
@@ -218,7 +230,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(239, 95, 152, 0.3);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -230,7 +242,7 @@
 
         .bio-modal {
             background: #fff;
-            border: 2px solid #000;
+            border: 2px solid var(--pink);
             padding: 40px;
             width: 100%;
             max-width: 460px;
@@ -245,7 +257,7 @@
             border: none;
             font-size: 22px;
             cursor: pointer;
-            color: #000;
+            color: var(--pink);
             line-height: 1;
         }
 
@@ -257,44 +269,45 @@
             font-size: 22px;
             font-weight: 900;
             margin-bottom: 20px;
+            color: #333;
         }
 
         .bio-github {
             font-size: 14px;
-            color: #000;
+            color: #333;
             font-weight: 700;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             padding-bottom: 16px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--pink-light);
         }
 
         .bio-github a {
-            color: #000;
+            color: var(--pink-dark);
             text-decoration: underline;
         }
 
         .bio-message {
             font-size: 15px;
             line-height: 2;
-            color: #333;
+            color: #555;
         }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 14px;
         }
 
         .user-name {
             font-size: 13px;
-            color: #666;
+            color: #999;
         }
 
         .logout-btn {
             padding: 6px 16px;
             background: transparent;
-            color: #000;
-            border: 1px solid #000;
+            color: var(--pink-dark);
+            border: 1px solid var(--pink);
             font-size: 12px;
             cursor: pointer;
             transition: all 0.3s;
@@ -302,7 +315,24 @@
         }
 
         .logout-btn:hover {
-            background: #000;
+            background: var(--pink);
+            color: #fff;
+        }
+
+        .lang-toggle {
+            padding: 6px 14px;
+            background: #fff;
+            color: var(--pink-dark);
+            border: 1px solid var(--pink);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .lang-toggle:hover {
+            background: var(--pink);
             color: #fff;
         }
 
@@ -319,7 +349,7 @@
             font-weight: 700;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: #999;
+            color: var(--pink);
             margin-bottom: 16px;
         }
 
@@ -328,6 +358,7 @@
             font-weight: 900;
             line-height: 1.3;
             margin-bottom: 40px;
+            color: #333;
         }
 
         .upload-section {
@@ -342,7 +373,7 @@
 
         .upload-card {
             background: #fff;
-            border: 2px solid #000;
+            border: 2px dashed var(--pink);
             aspect-ratio: 1;
             display: flex;
             flex-direction: column;
@@ -355,7 +386,7 @@
         }
 
         .upload-card:hover {
-            background: #000;
+            background: var(--pink);
             color: #fff;
         }
 
@@ -364,17 +395,29 @@
             font-weight: 300;
             line-height: 1;
             margin-bottom: 8px;
+            color: var(--pink);
+            transition: color 0.3s ease;
+        }
+
+        .upload-card:hover .plus-sign {
+            color: #fff;
         }
 
         .upload-card .upload-text {
             font-size: 13px;
             font-weight: 600;
             letter-spacing: 1px;
+            color: var(--pink-dark);
+            transition: color 0.3s ease;
+        }
+
+        .upload-card:hover .upload-text {
+            color: #fff;
         }
 
         .work-card {
             background: #fff;
-            border: 1px solid #ccc;
+            border: 1px solid var(--pink-light);
             aspect-ratio: 1;
             display: flex;
             flex-direction: column;
@@ -390,7 +433,7 @@
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: #999;
+            color: var(--pink);
             margin-bottom: 8px;
         }
 
@@ -400,22 +443,31 @@
             line-height: 1.4;
             word-break: break-all;
             flex: 1;
+            color: #333;
         }
 
         .work-card .file-size {
             font-size: 12px;
-            color: #999;
+            color: #b088a0;
             margin-top: 8px;
         }
 
         .work-card .file-date {
             font-size: 11px;
-            color: #bbb;
+            color: #d2aebf;
             margin-top: 4px;
         }
 
+        .work-card img.file-preview {
+            width: 100%;
+            height: 60%;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 6px;
+        }
+
         .bottom-section {
-            background: #000;
+            background: var(--pink);
             color: #fff;
             padding: 80px 48px;
             text-align: center;
@@ -433,20 +485,21 @@
             font-weight: 900;
         }
 
-        .bottom-cta {
-            margin-top: 32px;
+        .bottom-text-en {
             font-size: 14px;
-            letter-spacing: 2px;
-            color: #888;
+            font-weight: 400;
+            line-height: 2;
+            max-width: 700px;
+            margin: 12px auto 0;
+            color: #ffd9e8;
+            font-style: italic;
         }
 
-        .footer {
-            background: #000;
-            color: #666;
-            padding: 24px 48px;
-            text-align: center;
+        .bottom-small {
             font-size: 12px;
-            border-top: 1px solid #222;
+            letter-spacing: 2px;
+            color: #ffc9df;
+            margin-top: 28px;
         }
 
         .file-input {
@@ -458,7 +511,7 @@
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: #000;
+            background: var(--pink-dark);
             color: #fff;
             padding: 14px 32px;
             font-size: 14px;
@@ -474,21 +527,28 @@
 
         .download-hint {
             font-size: 11px;
-            color: #000;
+            color: var(--pink-dark);
             font-weight: 700;
             margin-top: 6px;
         }
 
         .work-card:hover {
-            background: #000;
+            background: var(--pink);
             color: #fff;
         }
 
         .work-card:hover .file-type,
-        .work-card:hover .file-size,
-        .work-card:hover .file-date,
         .work-card:hover .download-hint {
-            color: #aaa;
+            color: #ffd9e8;
+        }
+
+        .work-card:hover .file-name {
+            color: #fff;
+        }
+
+        .work-card:hover .file-size,
+        .work-card:hover .file-date {
+            color: #ffc9df;
         }
 
         @media (max-width: 768px) {
@@ -534,28 +594,31 @@
                 line-height: 1.8;
             }
 
-            .footer {
-                padding: 20px 24px;
+            .bottom-text-en {
+                font-size: 12px;
+                line-height: 1.8;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ================= 落地页 ================= -->
     <div class="landing-page" id="landingPage">
         <nav class="nav-bar">
-            <div class="nav-logo">NEW GAME PROJECT</div>
-            <button class="join-btn" onclick="enterMain()">加入我们</button>
+            <div class="nav-logo"></div>
+            <div class="header-actions">
+                <button class="lang-toggle" id="langBtnLanding" onclick="toggleLang()">EN</button>
+                <button class="join-btn" onclick="enterMain()" id="joinBtnNav">进入网站</button>
+            </div>
         </nav>
 
         <div class="landing-content">
-            <h1 class="landing-title">我们正在打造<br>一款全新的游戏</h1>
-            <p class="landing-subtitle">
-                这是一个开放的创作计划。无论你是程序员、设计师、还是热爱游戏的玩家，<br>
-                如果你有想法、有作品，这里就是你展示的舞台。
+            <h1 class="landing-title" id="landingTitle">这就是<br>一个你想发什么<br>就发什么的网站</h1>
+            <p class="landing-subtitle" id="landingSubtitle">
+                没有限制，没有规则。<br>
+                图片、文档、音乐、文件……想发什么就发什么。
             </p>
-            <button class="landing-cta" onclick="enterMain()">加入我们</button>
+            <button class="landing-cta" onclick="enterMain()" id="joinBtnMain">进入网站</button>
         </div>
 
         <div class="deco-lines">
@@ -568,65 +631,67 @@
         </div>
     </div>
 
-    <!-- ================= 主页面 ================= -->
     <div class="main-page" id="mainPage">
         <header class="main-header">
             <div class="author-name">
                 <div class="author-text">
                     <div class="name-row">
-                        <span class="letter-a">A</span><span class="rest-name">ctuiwess</span>
+                        <span class="letter-a">A</span><span class="rest-name">ctuiwess</span><span class="rest-name" style="font-size:13px;margin-left:2px;">≽^⚈⩊⚈^≼</span>
                     </div>
-                    <span class="author-subtitle">开发者</span>
+                    <span class="author-subtitle" id="authorSubtitle">开发者</span>
                 </div>
                 <button class="dots-btn" onclick="toggleBio()">···</button>
             </div>
             <div class="header-actions">
                 <span class="user-name" id="userName"></span>
-                <button class="logout-btn" onclick="logout()">退出</button>
+                <button class="lang-toggle" id="langBtnMain" onclick="toggleLang()">EN</button>
+                <button class="logout-btn" onclick="logout()" id="logoutBtn">退出</button>
             </div>
         </header>
 
         <div class="main-content">
-            <div class="section-label">作品上传</div>
-            <h2 class="main-heading">上传你的编程作品</h2>
+            <div class="section-label" id="sectionLabel">上传区</div>
+            <h2 class="main-heading" id="mainHeading">上传你想分享的东西</h2>
 
             <div class="upload-section">
                 <div class="upload-grid" id="uploadGrid">
                     <div class="upload-card" id="uploadCard" onclick="handleUploadClick()">
                         <div class="plus-sign" id="uploadPlus">+</div>
-                        <div class="upload-text" id="uploadText">点击上传作品</div>
+                        <div class="upload-text" id="uploadText">点击上传</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="bottom-section">
-            <p class="bottom-text">
-                我们准备打造一款<strong>全新的游戏</strong>。<br>
-                如果你看到了这行字，或者进入了这个网站，<strong>欢迎投稿</strong>。<br>
-                每个人都可以往上上传自己的编程作品，<br>
-                什么文件都可以添加。
+            <p class="bottom-text" id="bottomTextZh">
+                这里没有规则，<br>
+                自由发挥，<strong>你想发啥都行</strong>。
             </p>
-            <p class="bottom-cta">— NEW GAME PROJECT —</p>
-        </div>
-
-        <div class="footer">
-            NEW GAME PROJECT &copy; 2026 — 所有作品版权归原作者所有
+            <p class="bottom-text-en" id="bottomTextEn">
+                No rules here.<br>
+                Free to share whatever you want, <strong>you can post anything</strong>.
+            </p>
+            <p class="bottom-small" id="bottomSmall">你想发啥都行 / You can post anything</p>
         </div>
     </div>
 
-    <input type="file" class="file-input" id="fileInput" multiple>
+    <input type="file" class="file-input" id="fileInput" multiple accept="image/*,*/*">
 
     <div class="bio-overlay" id="bioOverlay">
         <div class="bio-modal">
             <button class="bio-close" onclick="toggleBio()">×</button>
-            <div class="bio-author">Actuiwess</div>
-            <div class="bio-github">
+            <div class="bio-author">Actuiwess ≽^⚈⩊⚈^≼</div>
+            <div class="bio-github" id="bioGithub">
                 作者在 GitHub 上面的官网账号，欢迎访问<br>
                 <a href="https://github.com/Actuiwess" target="_blank">github.com/Actuiwess</a>
             </div>
-            <div class="bio-message">
-                我特别特别想创作一款游戏，求求各位了，能不能一起上传一下？不管上传什么游戏都行，只要是游戏就行，大家也可以互相下载，感谢。
+            <div class="bio-github" id="bioDouyin">
+                前往我的抖音主页，欢迎关注<br>
+                <a href="https://www.douyin.com/search/Actuiwess" target="_blank">douyin.com · Actuiwess</a>
+            </div>
+            <div class="bio-message" id="bioMessage">
+                我在抖音和 YouTube 上有账号，名字叫 Actuiwess ≽^⚈⩊⚈^≼。
             </div>
         </div>
     </div>
@@ -637,10 +702,100 @@
         const STATE = {
             username: '',
             works: [],
-            uploadStep: 0
+            uploadStep: 0,
+            lang: 'zh'
         };
 
         const fileStore = new Map();
+        const previewStore = new Map();
+
+        var langTexts = {
+            zh: {
+                joinBtnNav: '进入网站',
+                joinBtnMain: '进入网站',
+                landingTitle: '这就是<br>一个你想发什么<br>就发什么的网站',
+                landingSubtitle: '没有限制，没有规则。<br>图片、文档、音乐、文件……想发什么就发什么。',
+                authorSubtitle: '开发者',
+                logoutBtn: '退出',
+                sectionLabel: '上传区',
+                mainHeading: '上传你想分享的东西',
+                uploadText: '点击上传',
+                bottomTextZh_display: 'block',
+                bottomTextEn_display: 'none',
+                bioGithub: '作者在 GitHub 上面的官网账号，欢迎访问<br><a href="https://github.com/Actuiwess" target="_blank">github.com/Actuiwess</a>',
+                bioDouyin: '前往我的抖音主页，欢迎关注<br><a href="https://www.douyin.com/search/Actuiwess" target="_blank">douyin.com · Actuiwess</a>',
+                bioMessage: '我在抖音和 YouTube 上有账号，名字叫 Actuiwess ≽^⚈⩊⚈^≼。',
+                uploadConfirm1: '确认要上传吗？再次点击继续',
+                uploadConfirm2: '警告：发布后无法删除，所有人可见！再次点击发布',
+                downloadHint: '点击下载',
+                toastUpload: '成功上传 ',
+                toastFiles: ' 个文件',
+                toastDownload: '开始下载: ',
+                toastFileMissing: '文件内容不可用（页面刷新后需重新上传）',
+                toastFileNotFound: '文件不存在',
+                bottomSmall: '你想发啥都行 / You can post anything'
+            },
+            en: {
+                joinBtnNav: 'Enter Site',
+                joinBtnMain: 'Enter Site',
+                landingTitle: 'This is a website<br>where you can post<br>whatever you want',
+                landingSubtitle: 'No limits, no rules.<br>Images, documents, music, files... post whatever you want.',
+                authorSubtitle: 'Developer',
+                logoutBtn: 'Logout',
+                sectionLabel: 'UPLOAD',
+                mainHeading: 'Upload What You Want to Share',
+                uploadText: 'Click to Upload',
+                bottomTextZh_display: 'none',
+                bottomTextEn_display: 'block',
+                bioGithub: 'The author\'s official GitHub account, welcome to visit<br><a href="https://github.com/Actuiwess" target="_blank">github.com/Actuiwess</a>',
+                bioDouyin: 'Visit my Douyin homepage, welcome to follow<br><a href="https://www.douyin.com/search/Actuiwess" target="_blank">douyin.com · Actuiwess</a>',
+                bioMessage: 'I have accounts on Douyin and YouTube, the name is Actuiwess ≽^⚈⩊⚈^≼.',
+                uploadConfirm1: 'Confirm upload? Click again to continue',
+                uploadConfirm2: 'Warning: Cannot be deleted after publishing, visible to all! Click again to publish',
+                downloadHint: 'Click to Download',
+                toastUpload: 'Successfully uploaded ',
+                toastFiles: ' file(s)',
+                toastDownload: 'Downloading: ',
+                toastFileMissing: 'File content unavailable (please re-upload after page refresh)',
+                toastFileNotFound: 'File does not exist',
+                bottomSmall: 'You can post anything'
+            }
+        };
+
+        function toggleLang() {
+            STATE.lang = STATE.lang === 'zh' ? 'en' : 'zh';
+            applyLang();
+        }
+
+        function applyLang() {
+            var t = langTexts[STATE.lang];
+            var btnLabel = STATE.lang === 'zh' ? 'EN' : '中文';
+
+            var langBtnLanding = document.getElementById('langBtnLanding');
+            var langBtnMain = document.getElementById('langBtnMain');
+            if (langBtnLanding) langBtnLanding.textContent = btnLabel;
+            if (langBtnMain) langBtnMain.textContent = btnLabel;
+
+            document.getElementById('joinBtnNav').textContent = t.joinBtnNav;
+            document.getElementById('joinBtnMain').textContent = t.joinBtnMain;
+            document.getElementById('landingTitle').innerHTML = t.landingTitle;
+            document.getElementById('landingSubtitle').innerHTML = t.landingSubtitle;
+            document.getElementById('authorSubtitle').textContent = t.authorSubtitle;
+            document.getElementById('logoutBtn').textContent = t.logoutBtn;
+            document.getElementById('sectionLabel').textContent = t.sectionLabel;
+            document.getElementById('mainHeading').textContent = t.mainHeading;
+            if (STATE.uploadStep === 0) {
+                document.getElementById('uploadText').textContent = t.uploadText;
+            }
+            document.getElementById('bottomTextZh').style.display = t.bottomTextZh_display;
+            document.getElementById('bottomTextEn').style.display = t.bottomTextEn_display;
+            document.getElementById('bottomSmall').textContent = t.bottomSmall;
+            document.getElementById('bioGithub').innerHTML = t.bioGithub;
+            document.getElementById('bioDouyin').innerHTML = t.bioDouyin;
+            document.getElementById('bioMessage').textContent = t.bioMessage;
+
+            renderWorks();
+        }
 
         function generateRandomName() {
             const chars = 'abcdefghijklmnopqrstuvwxyz';
@@ -663,6 +818,7 @@
 
         function logout() {
             fileStore.clear();
+            previewStore.clear();
             document.getElementById('mainPage').classList.remove('active');
             document.getElementById('landingPage').classList.remove('hidden');
             STATE.uploadStep = 0;
@@ -672,18 +828,21 @@
             var card = document.getElementById('uploadCard');
             var plus = document.getElementById('uploadPlus');
             var text = document.getElementById('uploadText');
+            var t = langTexts[STATE.lang];
 
             if (STATE.uploadStep === 0) {
                 STATE.uploadStep = 1;
                 plus.textContent = '!';
-                text.textContent = '确认要上传作品吗？再次点击继续';
-                card.style.borderColor = '#000';
-                card.style.background = '#f5f5f5';
+                plus.style.color = '#ef5f98';
+                text.textContent = t.uploadConfirm1;
+                text.style.color = '#ef5f98';
+                card.style.borderColor = '#ef5f98';
+                card.style.background = '#ffe8f1';
             } else if (STATE.uploadStep === 1) {
                 STATE.uploadStep = 2;
                 plus.textContent = '!';
-                text.textContent = '警告：发布后无法删除，所有人可见！再次点击发布';
-                card.style.background = '#000';
+                text.textContent = t.uploadConfirm2;
+                card.style.background = '#ff7ab0';
                 card.style.color = '#fff';
                 plus.style.color = '#fff';
                 text.style.color = '#fff';
@@ -698,14 +857,15 @@
             var card = document.getElementById('uploadCard');
             var plus = document.getElementById('uploadPlus');
             var text = document.getElementById('uploadText');
+            var t = langTexts[STATE.lang];
             STATE.uploadStep = 0;
             plus.textContent = '+';
-            text.textContent = '点击上传作品';
-            card.style.borderColor = '#000';
-            card.style.background = '#fff';
-            card.style.color = '#000';
-            plus.style.color = '#000';
-            text.style.color = '#000';
+            text.textContent = t.uploadText;
+            card.style.borderColor = '';
+            card.style.background = '';
+            card.style.color = '';
+            plus.style.color = '';
+            text.style.color = '';
         }
 
         function formatFileSize(bytes) {
@@ -731,7 +891,25 @@
             return y + '-' + m + '-' + d + ' ' + h + ':' + min;
         }
 
-        document.getElementById('fileInput').addEventListener('change', function(e) {
+        function isImageFile(file) {
+            return file.type && file.type.startsWith('image/');
+        }
+
+        function createImagePreview(file, workId) {
+            if (!isImageFile(file)) return Promise.resolve(null);
+            return new Promise(function(resolve) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var dataUrl = e.target.result;
+                    previewStore.set(workId, dataUrl);
+                    resolve(dataUrl);
+                };
+                reader.onerror = function() { resolve(null); };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        document.getElementById('fileInput').addEventListener('change', async function(e) {
             const files = e.target.files;
             if (!files.length) return;
 
@@ -740,6 +918,9 @@
                 const file = files[i];
                 const workId = Date.now() + '-' + i + '-' + Math.random().toString(36).substr(2, 6);
                 fileStore.set(workId, file);
+                if (isImageFile(file)) {
+                    await createImagePreview(file, workId);
+                }
                 STATE.works.push({
                     id: workId,
                     name: file.name,
@@ -747,14 +928,15 @@
                     type: file.type || 'unknown',
                     ext: getFileType(file.name),
                     uploadTime: getCurrentTime(),
-                    uploader: STATE.username
+                    uploader: STATE.username,
+                    isImage: isImageFile(file)
                 });
                 addedCount++;
             }
 
             saveWorks();
             renderWorks();
-            showToast('成功上传 ' + addedCount + ' 个文件');
+            showToast(langTexts[STATE.lang].toastUpload + addedCount + langTexts[STATE.lang].toastFiles);
             e.target.value = '';
         });
 
@@ -770,17 +952,25 @@
             }
 
             const sortedWorks = [...STATE.works].reverse();
+            var hint = langTexts[STATE.lang].downloadHint;
 
             sortedWorks.forEach(function(work) {
                 const card = document.createElement('div');
                 card.className = 'work-card';
                 card.setAttribute('data-work-id', work.id);
+
+                var previewHtml = '';
+                if (work.isImage && previewStore.has(work.id)) {
+                    previewHtml = '<img class="file-preview" src="' + previewStore.get(work.id) + '" alt="">';
+                }
+
                 card.innerHTML =
+                    previewHtml +
                     '<div class="file-type">' + work.ext + '</div>' +
                     '<div class="file-name">' + escapeHtml(work.name) + '</div>' +
                     '<div class="file-size">' + formatFileSize(work.size) + '</div>' +
                     '<div class="file-date">' + work.uploadTime + '</div>' +
-                    '<div class="download-hint">点击下载</div>';
+                    '<div class="download-hint">' + hint + '</div>';
                 card.addEventListener('click', function() {
                     downloadWork(work.id);
                 });
@@ -789,15 +979,16 @@
         }
 
         function downloadWork(id) {
+            var t = langTexts[STATE.lang];
             var work = STATE.works.find(function(w) { return w.id === id; });
             if (!work) {
-                showToast('文件不存在');
+                showToast(t.toastFileNotFound);
                 return;
             }
 
             var file = fileStore.get(id);
             if (!file) {
-                showToast('文件内容不可用（页面刷新后需重新上传）');
+                showToast(t.toastFileMissing);
                 return;
             }
 
@@ -809,21 +1000,36 @@
             a.click();
             document.body.removeChild(a);
             setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
-            showToast('开始下载: ' + work.name);
+            showToast(t.toastDownload + work.name);
         }
 
         function saveWorks() {
             try {
-                localStorage.setItem('ngp_works_v2', JSON.stringify(STATE.works));
+                var data = STATE.works.map(function(w) {
+                    var cloned = Object.assign({}, w);
+                    if (w.isImage && previewStore.has(w.id)) {
+                        cloned.preview = previewStore.get(w.id);
+                    }
+                    return cloned;
+                });
+                localStorage.setItem('ngp_works_v3', JSON.stringify(data));
             } catch (e) {
             }
         }
 
         function loadWorks() {
             try {
-                const saved = localStorage.getItem('ngp_works_v2');
+                const saved = localStorage.getItem('ngp_works_v3');
                 if (saved) {
-                    STATE.works = JSON.parse(saved);
+                    var data = JSON.parse(saved);
+                    STATE.works = data.map(function(w) {
+                        if (w.preview) {
+                            previewStore.set(w.id, w.preview);
+                        }
+                        var cloned = Object.assign({}, w);
+                        delete cloned.preview;
+                        return cloned;
+                    });
                 }
             } catch (e) {
                 STATE.works = [];
@@ -857,7 +1063,7 @@
             e.preventDefault();
         });
 
-        document.addEventListener('drop', function(e) {
+        document.addEventListener('drop', async function(e) {
             e.preventDefault();
 
             const files = e.dataTransfer.files;
@@ -868,6 +1074,9 @@
                 const file = files[i];
                 const workId = Date.now() + '-' + i + '-' + Math.random().toString(36).substr(2, 6);
                 fileStore.set(workId, file);
+                if (isImageFile(file)) {
+                    await createImagePreview(file, workId);
+                }
                 STATE.works.push({
                     id: workId,
                     name: file.name,
@@ -875,14 +1084,15 @@
                     type: file.type || 'unknown',
                     ext: getFileType(file.name),
                     uploadTime: getCurrentTime(),
-                    uploader: STATE.username
+                    uploader: STATE.username,
+                    isImage: isImageFile(file)
                 });
                 addedCount++;
             }
 
             saveWorks();
             renderWorks();
-            showToast('成功上传 ' + addedCount + ' 个文件');
+            showToast(langTexts[STATE.lang].toastUpload + addedCount + langTexts[STATE.lang].toastFiles);
         });
     </script>
 </body>
